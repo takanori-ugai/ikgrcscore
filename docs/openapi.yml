@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 0.0.0
+  version: 0.0.1
   title: RESTful API
   description: >-
     バックエンドAPI
@@ -94,11 +94,177 @@ paths:
                     example: null
         '500':
           $ref: '#/components/responses/500Error'
+  /Q1:
+    post:
+      tags:
+        - user
+      summary: Question1
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Living Room
+                      number:
+                        type: number
+                        example: 1
+                  example: [ { "name": "Living Room",   "number": 1 } ]
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Senario/{id}:
+    get:
+      tags:
+        - user
+      summary: Get a senario
+      description: |
+        Get a senario.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "GET"
+                  message:
+                    type: string
+                    example: "Success"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: Senario1
+                      title:
+                        type: string
+                        example: Morning Routine
+                      scene:
+                        type: number
+                        example: 1
+                      activities:
+                        type: array
+                        items:
+                          type: string
+                          example: Activity1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
 components:
   responses:
     500Error:
       description: |
-        サーバー上のエラー
+        Error on Server
       content:
         application/json:
           schema:
@@ -113,7 +279,7 @@ components:
                 example: "POST"
               message: 
                 type: string
-                example: "サーバー側で何らかのエラーが発生しました。"
+                example: "Server Error"
               data:
                 type: object
                 example: null
