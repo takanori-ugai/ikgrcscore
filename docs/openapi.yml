@@ -13,87 +13,6 @@ servers:
         enum:
           - localhost
 paths:
-  /register:
-    post:
-      tags:
-        - user
-      summary: ユーザ登録
-      description: |
-        クライアントが入力する情報をもとにユーザ情報を登録する
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: 山田太郎
-                email:
-                  type: string
-                  format: email
-                  example: yamada@hoge.hoge
-                password:
-                  type: string
-                  format: password
-                  example: qwerty123456789
-              required:
-                - name
-                - email
-                - password
-      responses:
-        '200':
-          description: ユーザ情報登録成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  statusCode:
-                    type: integer
-                    format: number
-                    example: 200
-                  method:
-                    type: string
-                    example: "POST"
-                  message:
-                    type: string
-                    example: "ユーザ登録に成功しました。"
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 1
-                required:
-                  - statusCode
-                  - method
-                  - message
-                  - data
-        '409':
-          description: |
-            登録済みのメールアドレス
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  statusCode:
-                    type: integer
-                    format: number
-                    example: 409
-                  method:
-                    type: string
-                    example: "POST"
-                  message:
-                    type: string
-                    example: "登録済みのメールアドレスです。"
-                  data: 
-                    type: object
-                    example: null
-        '500':
-          $ref: '#/components/responses/500Error'
   /Q1:
     post:
       tags:
@@ -126,6 +45,637 @@ paths:
                         type: number
                         example: 1
                   example: [ { "name": "Living Room",   "number": 1 } ]
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Q2:
+    post:
+      tags:
+        - user
+      summary: Question2
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Walk
+                      number:
+                        type: number
+                        example: 1
+                  example: [ { "name": "Walk",   "number": 1 } ]
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Q3:
+    post:
+      tags:
+        - user
+      summary: Question3
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: string
+                    example: Walk
+                  example: [ "Walk", "Grab" ]
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Q4:
+    post:
+      tags:
+        - user
+      summary: Question4
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: string
+                    example: Walk
+                  example: [ "Walk", "Grab" ]
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Q5:
+    post:
+      tags:
+        - user
+      summary: Question5
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      time:
+                        type: string
+                        example: "0000-00-00TT00:00:20.005"
+                      room:
+                        type: string
+                        example: "Living Room"
+                      object:
+                        type: string
+                        example: "Cup"
+                      number:
+                        type: integer
+                        example: 1
+                  example: [ { "time": "0000-00-00TT00:00:20.005",   "room": "Living Room", "object": "Cup", "number": 1 } ]
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Q6:
+    post:
+      tags:
+        - user
+      summary: Question6
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: string
+                    example: Walk
+                  example: [ "Walk", "Grab" ]
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Q7:
+    post:
+      tags:
+        - user
+      summary: Question7
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        object1:
+                          type: string
+                          example: table
+                        object2:
+                          type: string
+                          example: cup
+                        relation:
+                          type: string
+                          example: ON
+              required:
+                - name
+                - answers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 200
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration of Results is success"
+                  data:
+                    type: object
+                    properties:
+                      score:
+                        type: number
+                        example: 0.3
+                      ranking:
+                        type: integer
+                        example: 1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Q8:
+    post:
+      tags:
+        - user
+      summary: Question8
+      description: |
+        Show the score and ranking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Takanori Ugai
+                senario:
+                  type: string
+                  example: Senario1
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: table
+                      change:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            place:
+                              type: array
+                              items:
+                                type: number
+                                example: [ 1.1, 2.5, 3.2]
+                            status:
+                              type: string
+                              example: ON
               required:
                 - name
                 - answers
@@ -223,7 +773,7 @@ paths:
                         example: Senario1
                       title:
                         type: string
-                        example: Morning Routine
+                        example: "Morning Rituals: From Bedtime Stories to Juice Delight"
                       scene:
                         type: number
                         example: 1
@@ -231,7 +781,52 @@ paths:
                         type: array
                         items:
                           type: string
-                          example: Activity1
+                          example: Read_book1_scene1
+                required:
+                  - statusCode
+                  - method
+                  - message
+                  - data
+        '409':
+          description: |
+            Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: number
+                    example: 409
+                  method:
+                    type: string
+                    example: "POST"
+                  message:
+                    type: string
+                    example: "Registration Failed"
+                  data: 
+                    type: object
+                    example: null
+        '500':
+          $ref: '#/components/responses/500Error'
+  /Senario/list:
+    get:
+      tags:
+        - user
+      summary: Get episodes
+      description: |
+        Get episodes.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: ["afo", "bfo", "cfo"]
                 required:
                   - statusCode
                   - method
