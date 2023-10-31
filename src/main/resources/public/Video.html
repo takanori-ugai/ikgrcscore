@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <title>Title</title>
+</head>
+<body>
+<h3>Action Knowledge Graph Development Tool</h3>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col">
+            <label for="exampleFormControlTextarea1" class="form-label">SPARQL</label>
+            <button id="runQuery">Run Query</button>
+            <textarea class="form-control" id="exampleFormControlTextarea" rows="7">
+select * where {
+   ?s ?p ?o .
+}
+            </textarea>
+            <textarea class="form-control" id="exampleFormControlTextareaa" rows="4">
+activity-0  持つ 本
+activity-1  読む 本
+            </textarea>
+        </div>
+
+        <div class="col">
+            <label for="exampleFormControlTextarea1" class="form-label">Activity List</label>
+            <textarea class="form-control" id="exampleFormControlTextarea0" rows="7">
+持つ 本
+読む 本
+            </textarea>
+            <button id="activities">Transcript</button>
+        </div>
+        <div class="col">
+            <label for="exampleFormControlTextarea1" class="form-label">Virtual Home Script</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="7">
+<WALK> book (193)
+<GRAB> book (193)
+<READ> book (193)
+            </textarea>
+            <button id="scriptText">Rendering</button>
+        </div>
+    </div>
+    <div class="row">
+        <div style="text-align:center;">
+            <video controls autoplay muted src="test.mp4"></video>
+        </div>
+
+    </div>
+    <!-- Content here -->
+</div>
+</body>
+</html>
