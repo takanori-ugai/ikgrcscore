@@ -3,12 +3,12 @@ package com.fujitsu.ikgrcscore
 import io.javalin.openapi.OpenApiExample
 
 /**
- * Data class representing an error response.
+ * Represents an error response.
  *
- * @property title The title of the error.
- * @property status The HTTP status code of the error.
- * @property type The type of the error.
- * @property details Additional details about the error. Can be null if no additional details are provided.
+ * @property statusCode The HTTP status code of the error. Default value is 500.
+ * @property method The HTTP method associated with the error. Default value is "POST".
+ * @property message The message of the error.
+ * @property data Additional data about the error. Default value is an empty map.
  */
 data class ErrorResponse(
     @get:OpenApiExample("500")
@@ -20,5 +20,5 @@ data class ErrorResponse(
     @get:OpenApiExample("Server Error")
     val message: String,
 
-    val data: Map<String, Object> = emptyMap()
+    val data: Map<String, Any> = emptyMap()
 )
