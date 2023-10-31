@@ -121,6 +121,12 @@ object App {
         println("Check out Swagger UI docs at http://localhost:$portNumber/swagger-ui")
     }
 
+    /**
+     * This function handles the POST request at the "/Q1" path.
+     * It shows the score and ranking based on the answer provided in the request body.
+     *
+     * @param ctx The context of the HTTP request.
+     */
     @OpenApi(
         description = "Show the score and ranking.",
         summary = "Question1",
@@ -143,6 +149,12 @@ object App {
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
+    /**
+     * This function handles the POST request at the "/Q2" path.
+     * It shows the score and ranking based on the answer provided in the request body.
+     *
+     * @param ctx The context of the HTTP request.
+     */
     @OpenApi(
         description = "Show the score and ranking.",
         summary = "Question2",
@@ -151,7 +163,7 @@ object App {
         path = "/Q2",
         requestBody = OpenApiRequestBody(
             required = true,
-            content = [OpenApiContent(Q1answer::class)]
+            content = [OpenApiContent(Q2answer::class)]
         ),
         methods = [HttpMethod.POST],
         responses = [
