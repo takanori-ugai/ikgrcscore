@@ -41,6 +41,7 @@ dependencies {
 //    implementation("gg.jte:jte:2.2.1")
     implementation("gg.jte:jte-kotlin:3.1.3")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 //    runtimeOnly("org.slf4j:slf4j-simple:2.+")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:2.+")
 //    testImplementation(kotlin("test"))

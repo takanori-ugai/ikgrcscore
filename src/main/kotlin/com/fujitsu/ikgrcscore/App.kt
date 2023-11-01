@@ -19,7 +19,9 @@ import io.javalin.openapi.plugin.swagger.SwaggerPlugin
 import io.javalin.rendering.template.JavalinJte
 import java.nio.file.Path
 import java.util.Locale
+import io.github.oshai.kotlinlogging.KotlinLogging
 
+private val logger = KotlinLogging.logger {}
 fun main() {
     App.main()
 }
@@ -109,10 +111,8 @@ object App {
         }.start(portNumber)
 
         app.get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
-        app.get("/hello") { it.html("<H1>Hello World</H1>") }
-        app.get("/hello2", this::renderHelloPage)
-        app.get("/api/hello1") { it.result("Hello World") }
-        app.get("/api/users2/{userId}", this::retHello)
+        app.get("/Senario/list", this::listSenario)
+        app.get("/Senario/{id}", this::getSenario)
         app.post("/Q1", this::q1)
         app.post("/Q2", this::q2)
         app.post("/Q3", this::q3)
@@ -122,8 +122,8 @@ object App {
         app.post("/Q7", this::q7)
         app.post("/Q8", this::q8)
 
-        println("Check out ReDoc docs at http://localhost:$portNumber/redoc")
-        println("Check out Swagger UI docs at http://localhost:$portNumber/swagger-ui")
+        logger.info { "Check out ReDoc docs at http://localhost:$portNumber/redoc" }
+        logger.info { "Check out Swagger UI docs at http://localhost:$portNumber/swagger-ui" }
     }
 
     /**
@@ -351,40 +351,40 @@ object App {
     }
 
     @OpenApi(
-        description = "Test service for Javalin",
+        description = "Get a senario",
         deprecated = false,
-        summary = "Hello World",
-        operationId = "hello",
-        tags = ["user2"],
-        path = "/users2/{userId}",
-        pathParams = [OpenApiParam("userId", Int::class, "The user ID", false, true, example = "1")],
+        summary = "Get a senario",
+        operationId = "senario",
+        tags = ["user"],
+        path = "/Senario/{id}",
+        pathParams = [OpenApiParam("id", String::class, "The Senario ID", false, true, example = "Senario1")],
         methods = [HttpMethod.GET],
         responses = [
-            OpenApiResponse("200", [OpenApiContent(HelloPage::class)]),
+            OpenApiResponse("200", [OpenApiContent(SenarioAnswer::class)]),
             OpenApiResponse("400", [OpenApiContent(ErrorResponse::class)])
         ]
     )
-    fun retHello(ctx: Context) {
-        val hello = HelloPage("Test0", 12345)
-        ctx.json(hello)
+    fun getSenario(ctx: Context) {
+        val answer = ctx.pathParam("id")
+        println(answer)
+        ctx.json(SenarioAnswer(data = Senario("Senario1", "Senario1", 1, listOf("Test"))))
     }
 
     @OpenApi(
-        description = "Endpoint to render a HelloPage",
+        description = "Get episodes",
         deprecated = false,
-        summary = "Render HelloPage",
-        operationId = "renderHelloPage",
-        tags = ["User"],
-        path = "/hello2",
+        summary = "Get episodes",
+        operationId = "senarioList",
+        tags = ["user"],
+        path = "/Senario/list",
         methods = [HttpMethod.GET],
         responses = [
-            OpenApiResponse("200", [OpenApiContent(HelloPage::class)]),
+            OpenApiResponse("200", [OpenApiContent(Array<String>::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ErrorResponse::class)])
         ]
     )
-    fun renderHelloPage(ctx: Context) {
-        val page = HelloPage("<script>alert('xss')</script>", 1337)
-        ctx.render("hello.kte", mapOf("page" to page, "localizer" to Localizer(Locale.US)))
+    fun listSenario(ctx: Context) {
+        ctx.json(listOf("test1", "test2"))
     }
 
     fun createTemplateEngine(): TemplateEngine {
