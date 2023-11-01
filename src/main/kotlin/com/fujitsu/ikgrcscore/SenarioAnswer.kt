@@ -1,8 +1,6 @@
 package com.fujitsu.ikgrcscore
 
 import io.javalin.openapi.OpenApiExample
-import io.javalin.openapi.OpenApiRequired
-import java.io.StringBufferInputStream
 
 data class SenarioAnswer(
     @get:OpenApiExample("200")

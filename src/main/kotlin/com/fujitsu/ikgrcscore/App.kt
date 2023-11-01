@@ -3,6 +3,7 @@ package com.fujitsu.ikgrcscore
 import gg.jte.ContentType
 import gg.jte.TemplateEngine
 import gg.jte.resolve.DirectoryCodeResolver
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.javalin.Javalin
 import io.javalin.config.JavalinConfig
 import io.javalin.http.Context
@@ -18,8 +19,6 @@ import io.javalin.openapi.plugin.swagger.SwaggerConfiguration
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin
 import io.javalin.rendering.template.JavalinJte
 import java.nio.file.Path
-import java.util.Locale
-import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 fun main() {
@@ -150,7 +149,7 @@ object App {
     )
     fun q1(ctx: Context) {
         val answer = ctx.bodyAsClass<Q1answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -178,7 +177,7 @@ object App {
     )
     fun q2(ctx: Context) {
         val answer = ctx.bodyAsClass<Q2answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -206,7 +205,7 @@ object App {
     )
     fun q3(ctx: Context) {
         val answer = ctx.bodyAsClass<Q3answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -234,7 +233,7 @@ object App {
     )
     fun q4(ctx: Context) {
         val answer = ctx.bodyAsClass<Q3answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -262,7 +261,7 @@ object App {
     )
     fun q5(ctx: Context) {
         val answer = ctx.bodyAsClass<Q5answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -290,7 +289,7 @@ object App {
     )
     fun q6(ctx: Context) {
         val answer = ctx.bodyAsClass<Q3answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -318,7 +317,7 @@ object App {
     )
     fun q7(ctx: Context) {
         val answer = ctx.bodyAsClass<Q7answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -346,7 +345,7 @@ object App {
     )
     fun q8(ctx: Context) {
         val answer = ctx.bodyAsClass<Q8answer>()
-        println(answer.answers.size)
+        logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -366,7 +365,7 @@ object App {
     )
     fun getSenario(ctx: Context) {
         val answer = ctx.pathParam("id")
-        println(answer)
+        logger.info { "getSenario is called : $answer" }
         ctx.json(SenarioAnswer(data = Senario("Senario1", "Senario1", 1, listOf("Test"))))
     }
 
@@ -384,6 +383,7 @@ object App {
         ]
     )
     fun listSenario(ctx: Context) {
+        logger.info { "listSenario is called" }
         ctx.json(listOf("test1", "test2"))
     }
 
