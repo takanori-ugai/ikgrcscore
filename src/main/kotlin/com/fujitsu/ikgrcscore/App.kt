@@ -26,13 +26,11 @@ fun main() {
 }
 
 /**
- * A sample application of Javalin.
+ * The main function to run this application.
  *
- * This class has no useful logic; it's just a documentation example.
- *
- * @param T the type of a member in this group.
- * @property name the name of this group.
- * @constructor Creates an empty group.
+ * This function initializes the Javalin server with a custom template engine and configures various plugins such as OpenApiPlugin, SwaggerPlugin, and ReDocPlugin.
+ * It also sets up static file hosting and starts the server on the specified port number.
+ * After starting the server, it sets up various routes for the application and logs the URLs for the ReDoc and Swagger UI documentation.
  */
 object App {
     const val isDevSystem = false
@@ -130,6 +128,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -158,6 +157,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -186,6 +186,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -214,6 +215,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -242,6 +244,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -270,6 +273,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -298,6 +302,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -326,6 +331,7 @@ object App {
      * It shows the score and ranking based on the answer provided in the request body.
      *
      * @param ctx The context of the HTTP request.
+     * @return A JSON response with the user's score and ranking.
      */
     @OpenApi(
         description = "Show the score and ranking.",
@@ -349,6 +355,13 @@ object App {
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
+    /**
+     * This function handles the GET request at the "/Senario/{id}" path.
+     * It retrieves a scenario based on the ID provided in the path parameter.
+     *
+     * @param ctx The context of the HTTP request. This should include a path parameter with the ID of the scenario to retrieve.
+     * @return A JSON response with the requested scenario.
+     */
     @OpenApi(
         description = "Get a senario",
         deprecated = false,
@@ -369,6 +382,13 @@ object App {
         ctx.json(SenarioAnswer(data = Senario("Senario1", "Senario1", 1, listOf("Test"))))
     }
 
+    /**
+     * This function handles the GET request at the "/Senario/list" path.
+     * It retrieves a list of all scenarios.
+     *
+     * @param ctx The context of the HTTP request.
+     * @return A JSON response with a list of all scenarios.
+     */
     @OpenApi(
         description = "Get episodes",
         deprecated = false,
@@ -387,6 +407,13 @@ object App {
         ctx.json(listOf("test1", "test2"))
     }
 
+    /**
+     * This function creates a template engine for rendering JTE templates.
+     *
+     * The template engine is configured with a code resolver that loads templates from different directories depending on whether the application is running in development mode or not.
+     *
+     * @return A TemplateEngine instance configured with the appropriate code resolver.
+     */
     fun createTemplateEngine(): TemplateEngine {
         val codeResolver = if (isDevSystem) {
             DirectoryCodeResolver(Path.of("src/main/jte"))
