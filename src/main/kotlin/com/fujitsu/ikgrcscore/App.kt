@@ -111,11 +111,16 @@ object App {
         app.get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
         app.get("/hello") { it.html("<H1>Hello World</H1>") }
         app.get("/hello2", this::renderHelloPage)
-        app.post("/helloPost", this::helloPost)
         app.get("/api/hello1") { it.result("Hello World") }
         app.get("/api/users2/{userId}", this::retHello)
         app.post("/Q1", this::q1)
         app.post("/Q2", this::q2)
+        app.post("/Q3", this::q3)
+        app.post("/Q4", this::q4)
+        app.post("/Q5", this::q5)
+        app.post("/Q6", this::q6)
+        app.post("/Q7", this::q7)
+        app.post("/Q8", this::q8)
 
         println("Check out ReDoc docs at http://localhost:$portNumber/redoc")
         println("Check out Swagger UI docs at http://localhost:$portNumber/swagger-ui")
@@ -178,31 +183,171 @@ object App {
     }
 
     /**
-     * A test function to get a parameter from form in HTML.
+     * This function handles the POST request at the "/Q3" path.
+     * It shows the score and ranking based on the answer provided in the request body.
      *
-     * @param ctx Context the context to manipulate the query and result.
+     * @param ctx The context of the HTTP request.
      */
     @OpenApi(
-        description = "Endpoint to post a name and return it in an H1 HTML tag",
-        deprecated = false,
-        summary = "Post Name",
-        operationId = "postName",
+        description = "Show the score and ranking.",
+        summary = "Question3",
+        operationId = "Question3",
         tags = ["user"],
-        path = "/helloPost",
+        path = "/Q3",
         requestBody = OpenApiRequestBody(
-            description = "Supports multiple request bodies",
-            content = [OpenApiContent(from = String::class)]
+            required = true,
+            content = [OpenApiContent(Q3answer::class)]
         ),
-        queryParams = [OpenApiParam("name", String::class, "The name to be posted", required = true, example = "Name")],
         methods = [HttpMethod.POST],
         responses = [
-            OpenApiResponse("200", [OpenApiContent(String::class)]),
-            OpenApiResponse("400", [OpenApiContent(ErrorResponse::class)])
+            OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
-    fun helloPost(ctx: Context) {
-        val str = ctx.queryParams("name")
-        ctx.html("<H1>$str</H1>")
+    fun q3(ctx: Context) {
+        val answer = ctx.bodyAsClass<Q3answer>()
+        println(answer.answers.size)
+        ctx.json(Success(data = SuccessData(0.3, 3)))
+    }
+
+    /**
+     * This function handles the POST request at the "/Q4" path.
+     * It shows the score and ranking based on the answer provided in the request body.
+     *
+     * @param ctx The context of the HTTP request.
+     */
+    @OpenApi(
+        description = "Show the score and ranking.",
+        summary = "Question4",
+        operationId = "Question4",
+        tags = ["user"],
+        path = "/Q4",
+        requestBody = OpenApiRequestBody(
+            required = true,
+            content = [OpenApiContent(Q3answer::class)]
+        ),
+        methods = [HttpMethod.POST],
+        responses = [
+            OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
+        ]
+    )
+    fun q4(ctx: Context) {
+        val answer = ctx.bodyAsClass<Q3answer>()
+        println(answer.answers.size)
+        ctx.json(Success(data = SuccessData(0.3, 3)))
+    }
+
+    /**
+     * This function handles the POST request at the "/Q5" path.
+     * It shows the score and ranking based on the answer provided in the request body.
+     *
+     * @param ctx The context of the HTTP request.
+     */
+    @OpenApi(
+        description = "Show the score and ranking.",
+        summary = "Question5",
+        operationId = "Question5",
+        tags = ["user"],
+        path = "/Q5",
+        requestBody = OpenApiRequestBody(
+            required = true,
+            content = [OpenApiContent(Q5answer::class)]
+        ),
+        methods = [HttpMethod.POST],
+        responses = [
+            OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
+        ]
+    )
+    fun q5(ctx: Context) {
+        val answer = ctx.bodyAsClass<Q5answer>()
+        println(answer.answers.size)
+        ctx.json(Success(data = SuccessData(0.3, 3)))
+    }
+
+    /**
+     * This function handles the POST request at the "/Q6" path.
+     * It shows the score and ranking based on the answer provided in the request body.
+     *
+     * @param ctx The context of the HTTP request.
+     */
+    @OpenApi(
+        description = "Show the score and ranking.",
+        summary = "Question6",
+        operationId = "Question6",
+        tags = ["user"],
+        path = "/Q6",
+        requestBody = OpenApiRequestBody(
+            required = true,
+            content = [OpenApiContent(Q3answer::class)]
+        ),
+        methods = [HttpMethod.POST],
+        responses = [
+            OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
+        ]
+    )
+    fun q6(ctx: Context) {
+        val answer = ctx.bodyAsClass<Q3answer>()
+        println(answer.answers.size)
+        ctx.json(Success(data = SuccessData(0.3, 3)))
+    }
+
+    /**
+     * This function handles the POST request at the "/Q7" path.
+     * It shows the score and ranking based on the answer provided in the request body.
+     *
+     * @param ctx The context of the HTTP request.
+     */
+    @OpenApi(
+        description = "Show the score and ranking.",
+        summary = "Question7",
+        operationId = "Question7",
+        tags = ["user"],
+        path = "/Q7",
+        requestBody = OpenApiRequestBody(
+            required = true,
+            content = [OpenApiContent(Q7answer::class)]
+        ),
+        methods = [HttpMethod.POST],
+        responses = [
+            OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
+        ]
+    )
+    fun q7(ctx: Context) {
+        val answer = ctx.bodyAsClass<Q7answer>()
+        println(answer.answers.size)
+        ctx.json(Success(data = SuccessData(0.3, 3)))
+    }
+
+    /**
+     * This function handles the POST request at the "/Q8" path.
+     * It shows the score and ranking based on the answer provided in the request body.
+     *
+     * @param ctx The context of the HTTP request.
+     */
+    @OpenApi(
+        description = "Show the score and ranking.",
+        summary = "Question8",
+        operationId = "Question8",
+        tags = ["user"],
+        path = "/Q8",
+        requestBody = OpenApiRequestBody(
+            required = true,
+            content = [OpenApiContent(Q8answer::class)]
+        ),
+        methods = [HttpMethod.POST],
+        responses = [
+            OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
+        ]
+    )
+    fun q8(ctx: Context) {
+        val answer = ctx.bodyAsClass<Q8answer>()
+        println(answer.answers.size)
+        ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
     @OpenApi(

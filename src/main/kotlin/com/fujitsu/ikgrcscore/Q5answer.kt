@@ -3,7 +3,7 @@ package com.fujitsu.ikgrcscore
 import io.javalin.openapi.OpenApiExample
 import io.javalin.openapi.OpenApiRequired
 
-data class Q1answer(
+data class Q5answer(
     @get:OpenApiRequired
     @get:OpenApiExample("Takanori Ugai")
     val name: String,
@@ -13,14 +13,13 @@ data class Q1answer(
     val senario: String,
 
     @get:OpenApiRequired
-    val answers: Array<Q1data>
+    @get:OpenApiExample("[ { \"time\": \"0000-00-00TT00:00:20.005\",   \"room\": \"Living Room\", \"obj\": \"Cup\", \"number\": 1 } ]")
+    val answers: Array<Q5data>
 
 )
-
-data class Q1data(
-    @get:OpenApiExample("Kitchen")
+data class Q5data(
     val name: String,
-
-    @get:OpenApiExample("2")
+    val change: String,
+    val obj: String,
     val number: Int
 )
