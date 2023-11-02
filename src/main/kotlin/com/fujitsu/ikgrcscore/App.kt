@@ -64,7 +64,7 @@ object App {
                                     openApiInfo.termsOfService = "http://{host}:8081/api/v1"
                                 }
                                 .withServer { server ->
-                                    server.url = "http://localhost:7000/"
+                                    server.url = "https://kgrc4si.home.kg/score"
                                     server.description = "go service api server endpoint application"
                                     server.addVariable(
                                         "host",
@@ -101,6 +101,10 @@ object App {
                 staticFiles.directory = "public"
                 staticFiles.location = Location.CLASSPATH
                 staticFiles.precompress = false
+            }
+
+            config.plugins.enableCors { cors ->
+                cors.add { it.anyHost() }
             }
         }.start(portNumber)
 
