@@ -3,9 +3,8 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    kotlin("jvm") version "1.9.10"
-    kotlin("kapt") version "1.9.10"
-    id("gg.jte.gradle") version ("3.1.3")
+    kotlin("jvm") version "1.9.20"
+    kotlin("kapt") version "1.9.20"
     java
     application
     jacoco
@@ -24,22 +23,16 @@ version = "0.1"
 
 repositories {
     mavenCentral()
-//    maven(url="https://maven.reposilite.com/snapshots")
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-//    implementation(kotlin("reflect"))
+//    implementation(kotlin("stdlib"))
     implementation("io.javalin:javalin:5.6.3")
-//    annotationProcessor("io.javalin.community.openapi:openapi-annotation-processor:5.0.1")
-    // For Kotlin projects
     kapt("io.javalin.community.openapi:openapi-annotation-processor:5.6.3")
     implementation("io.javalin.community.openapi:javalin-openapi-plugin:5.6.3") // for /openapi route with JSON scheme
     implementation("io.javalin.community.openapi:javalin-swagger-plugin:5.6.3") // for Swagger UI
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:5.6.3") // for ReDoc UI
     implementation("io.javalin:javalin-rendering:5.6.2")
-//    implementation("gg.jte:jte:2.2.1")
-    implementation("gg.jte:jte-kotlin:3.1.3")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 //    runtimeOnly("org.slf4j:slf4j-simple:2.+")
@@ -100,11 +93,6 @@ tasks {
             attributes["Main-Class"] = "com.fujitsu.labs.virtualhome.MainKt"
         }
     }
-}
-
-jte {
-    precompile()
-//    generate()
 }
 
 java {

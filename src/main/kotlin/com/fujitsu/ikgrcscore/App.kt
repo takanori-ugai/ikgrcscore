@@ -1,8 +1,5 @@
 package com.fujitsu.ikgrcscore
 
-import gg.jte.ContentType
-import gg.jte.TemplateEngine
-import gg.jte.resolve.DirectoryCodeResolver
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.javalin.Javalin
 import io.javalin.config.JavalinConfig
@@ -17,8 +14,6 @@ import io.javalin.openapi.plugin.redoc.ReDocConfiguration
 import io.javalin.openapi.plugin.redoc.ReDocPlugin
 import io.javalin.openapi.plugin.swagger.SwaggerConfiguration
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin
-import io.javalin.rendering.template.JavalinJte
-import java.nio.file.Path
 
 private val logger = KotlinLogging.logger {}
 fun main() {
@@ -28,9 +23,11 @@ fun main() {
 /**
  * The main function to run this application.
  *
- * This function initializes the Javalin server with a custom template engine and configures various plugins such as OpenApiPlugin, SwaggerPlugin, and ReDocPlugin.
+ * This function initializes the Javalin server with a custom template engine and configures various plugins
+ * such as OpenApiPlugin, SwaggerPlugin, and ReDocPlugin.
  * It also sets up static file hosting and starts the server on the specified port number.
- * After starting the server, it sets up various routes for the application and logs the URLs for the ReDoc and Swagger UI documentation.
+ * After starting the server, it sets up various routes for the application and logs the URLs for the ReDoc
+ * and Swagger UI documentation.
  */
 object App {
     const val isDevSystem = false
@@ -41,7 +38,6 @@ object App {
      *
      */
     fun main() {
-        JavalinJte.init(createTemplateEngine()) { isDevSystem }
         val app = Javalin.create { config: JavalinConfig ->
             val deprecatedDocsPath = "/openapi"
             config.plugins.register(
@@ -283,7 +279,7 @@ object App {
         path = "/Q6",
         requestBody = OpenApiRequestBody(
             required = true,
-            content = [OpenApiContent(Q3answer::class)]
+            content = [OpenApiContent(Q6answer::class)]
         ),
         methods = [HttpMethod.POST],
         responses = [
@@ -292,8 +288,8 @@ object App {
         ]
     )
     fun q6(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q3answer>()
-        logger.info { answer.answers.size }
+        val answer = ctx.bodyAsClass<Q6answer>()
+        logger.info { answer.answers }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
 
@@ -405,22 +401,5 @@ object App {
     fun listSenario(ctx: Context) {
         logger.info { "listSenario is called" }
         ctx.json(listOf("test1", "test2"))
-    }
-
-    /**
-     * This function creates a template engine for rendering JTE templates.
-     *
-     * The template engine is configured with a code resolver that loads templates from different directories depending on whether the application is running in development mode or not.
-     *
-     * @return A TemplateEngine instance configured with the appropriate code resolver.
-     */
-    fun createTemplateEngine(): TemplateEngine {
-        val codeResolver = if (isDevSystem) {
-            DirectoryCodeResolver(Path.of("src/main/jte"))
-        } else {
-            DirectoryCodeResolver(Path.of("jte-classes"))
-        }
-
-        return TemplateEngine.create(codeResolver, ContentType.Html)
     }
 }
