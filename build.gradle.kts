@@ -101,7 +101,7 @@ java {
 }
 
 application {
-    mainClass.set("com.fujitsu.labs.javalin.AppKt")
+    mainClass.set("com.fujitsu.ikgrcscore.AppKt")
 }
 
 detekt {

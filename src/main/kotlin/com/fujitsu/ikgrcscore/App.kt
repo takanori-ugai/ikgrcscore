@@ -80,6 +80,7 @@ object App {
             config.plugins.register(
                 SwaggerPlugin(
                     SwaggerConfiguration().apply {
+                        basePath = "/score"
                         uiPath = "/swagger-ui"
                         documentationPath = deprecatedDocsPath
                     }
