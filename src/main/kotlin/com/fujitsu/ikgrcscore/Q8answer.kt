@@ -26,6 +26,6 @@ data class Q8data(
 data class Q8element(
     @get:OpenApiExample("[ 1.1, 2.5, 3.2]")
     val place: List<Double>,
-    @get:OpenApiExample("ON")
-    val status: String
+    @get:OpenApiExample("[\"ON\", \"CLEAN\"]")
+    val status: List<String>
 )
