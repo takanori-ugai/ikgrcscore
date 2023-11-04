@@ -2,6 +2,8 @@ package com.fujitsu.ikgrcscore
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.javalin.Javalin
+import io.javalin.apibuilder.ApiBuilder.get
+import io.javalin.apibuilder.ApiBuilder.post
 import io.javalin.config.JavalinConfig
 import io.javalin.http.Context
 import io.javalin.http.HttpStatus
@@ -16,9 +18,6 @@ import io.javalin.openapi.plugin.swagger.SwaggerConfiguration
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin
 
 private val logger = KotlinLogging.logger {}
-fun main() {
-    App.main()
-}
 
 /**
  * The main function to run this application.
@@ -29,99 +28,102 @@ fun main() {
  * After starting the server, it sets up various routes for the application and logs the URLs for the ReDoc
  * and Swagger UI documentation.
  */
+fun main() {
+    App.app.start(App.portNumber)
+    logger.info { "Check out ReDoc docs at http://localhost:${App.portNumber}/redoc" }
+    logger.info { "Check out Swagger UI docs at http://localhost:${App.portNumber}/swagger-ui" }
+}
+
 object App {
     const val isDevSystem = false
     const val portNumber = 7000
 
-    /**
-     * The main function to run this application.
-     *
-     */
-    fun main() {
-        val app = Javalin.create { config: JavalinConfig ->
-            val deprecatedDocsPath = "/openapi"
-            config.plugins.register(
-                OpenApiPlugin(
-                    OpenApiPluginConfiguration()
-                        .withDocumentationPath(deprecatedDocsPath)
-                        .withDefinitionConfiguration { _, definition ->
-                            definition
-                                .withOpenApiInfo { openApiInfo ->
-                                    openApiInfo.title = "RESTful API"
-                                    openApiInfo.summary = "RESTful API"
-                                    openApiInfo.description = "Backend API"
-                                    openApiInfo.version = "0.0.1"
-                                    openApiInfo.contact = OpenApiContact().apply {
-                                        name = "API Support"
-                                        url = "https://www.example.com/support"
-                                        email = "ugai@fujitsu.com"
-                                    }
-
-                                    openApiInfo.license = OpenApiLicense().apply {
-                                        name = "Apache 2.0"
-                                        identifier = "Apache-2.0"
-                                    }
-                                    openApiInfo.termsOfService = "http://{host}:8081/api/v1"
+    val app = Javalin.create { config: JavalinConfig ->
+        val deprecatedDocsPath = "/openapi"
+        config.plugins.register(
+            OpenApiPlugin(
+                OpenApiPluginConfiguration()
+                    .withDocumentationPath(deprecatedDocsPath)
+                    .withDefinitionConfiguration { _, definition ->
+                        definition
+                            .withOpenApiInfo { openApiInfo ->
+                                openApiInfo.title = "RESTful API"
+                                openApiInfo.summary = "RESTful API"
+                                openApiInfo.description = "Backend API"
+                                openApiInfo.version = "0.0.1"
+                                openApiInfo.contact = OpenApiContact().apply {
+                                    name = "API Support"
+                                    url = "https://www.example.com/support"
+                                    email = "ugai@fujitsu.com"
                                 }
-                                .withServer { server ->
+
+                                openApiInfo.license = OpenApiLicense().apply {
+                                    name = "Apache 2.0"
+                                    identifier = "Apache-2.0"
+                                }
+                                openApiInfo.termsOfService = "http://{host}:8081/api/v1"
+                            }
+                            .withServer { server ->
+                                if (isDevSystem) {
+                                    server.url = "http://localhost:7000"
+                                } else {
                                     server.url = "https://kgrc4si.home.kg/score"
-                                    server.description = "go service api server endpoint application"
-                                    server.addVariable(
-                                        "host",
-                                        "localhost",
-                                        arrayOf("localhost"),
-                                        "Port of the server"
-                                    )
                                 }
-                        }
-                )
+                                server.description = "go service api server endpoint application"
+                                server.addVariable(
+                                    "host",
+                                    "localhost",
+                                    arrayOf("localhost"),
+                                    "Port of the server"
+                                )
+                            }
+                    }
             )
+        )
 
-            config.plugins.register(
-                SwaggerPlugin(
-                    SwaggerConfiguration().apply {
+        config.plugins.register(
+            SwaggerPlugin(
+                SwaggerConfiguration().apply {
+                    if (!isDevSystem) {
                         basePath = "/score"
-                        uiPath = "/swagger-ui"
-                        documentationPath = deprecatedDocsPath
                     }
-                )
+                    uiPath = "/swagger-ui"
+                    documentationPath = deprecatedDocsPath
+                }
             )
+        )
 
-            config.plugins.register(
-                ReDocPlugin(
-                    ReDocConfiguration().apply {
-                        uiPath = "/redoc"
-                        documentationPath = deprecatedDocsPath
-                    }
-                )
+        config.plugins.register(
+            ReDocPlugin(
+                ReDocConfiguration().apply {
+                    uiPath = "/redoc"
+                    documentationPath = deprecatedDocsPath
+                }
             )
+        )
 
-            config.staticFiles.add { staticFiles ->
-                staticFiles.hostedPath = "/assets"
-                staticFiles.directory = "public"
-                staticFiles.location = Location.CLASSPATH
-                staticFiles.precompress = false
-            }
+        config.staticFiles.add { staticFiles ->
+            staticFiles.hostedPath = "/assets"
+            staticFiles.directory = "public"
+            staticFiles.location = Location.CLASSPATH
+            staticFiles.precompress = false
+        }
 
-            config.plugins.enableCors { cors ->
-                cors.add { it.anyHost() }
-            }
-        }.start(portNumber)
-
-        app.get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
-        app.get("/Senario/list", this::listSenario)
-        app.get("/Senario/{id}", this::getSenario)
-        app.post("/Q1", this::q1)
-        app.post("/Q2", this::q2)
-        app.post("/Q3", this::q3)
-        app.post("/Q4", this::q4)
-        app.post("/Q5", this::q5)
-        app.post("/Q6", this::q6)
-        app.post("/Q7", this::q7)
-        app.post("/Q8", this::q8)
-
-        logger.info { "Check out ReDoc docs at http://localhost:$portNumber/redoc" }
-        logger.info { "Check out Swagger UI docs at http://localhost:$portNumber/swagger-ui" }
+        config.plugins.enableCors { cors ->
+            cors.add { it.anyHost() }
+        }
+    }.routes {
+        get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
+        get("/Senario/list", this::listSenario)
+        get("/Senario/{id}", this::getSenario)
+        post("/Q1", this::q1)
+        post("/Q2", this::q2)
+        post("/Q3", this::q3)
+        post("/Q4", this::q4)
+        post("/Q5", this::q5)
+        post("/Q6", this::q6)
+        post("/Q7", this::q7)
+        post("/Q8", this::q8)
     }
 
     /**
