@@ -17,7 +17,6 @@ import io.javalin.openapi.plugin.redoc.ReDocPlugin
 import io.javalin.openapi.plugin.swagger.SwaggerConfiguration
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin
 import io.javalin.validation.ValidationError
-import io.javalin.validation.Validator
 
 private val logger = KotlinLogging.logger {}
 
