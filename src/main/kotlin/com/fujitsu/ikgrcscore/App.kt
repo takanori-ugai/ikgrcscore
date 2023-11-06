@@ -7,7 +7,6 @@ import io.javalin.apibuilder.ApiBuilder.post
 import io.javalin.config.JavalinConfig
 import io.javalin.http.Context
 import io.javalin.http.HttpStatus
-import io.javalin.http.bodyAsClass
 import io.javalin.http.staticfiles.Location
 import io.javalin.openapi.*
 import io.javalin.openapi.plugin.OpenApiPlugin
@@ -288,7 +287,11 @@ class App {
         ]
     )
     fun q5(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q5answer>()
+        val answer = ctx.bodyValidator(Q5answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+            .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
