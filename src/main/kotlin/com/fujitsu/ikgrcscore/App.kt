@@ -16,8 +16,13 @@ import io.javalin.openapi.plugin.redoc.ReDocConfiguration
 import io.javalin.openapi.plugin.redoc.ReDocPlugin
 import io.javalin.openapi.plugin.swagger.SwaggerConfiguration
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin
+import io.javalin.validation.ValidationError
+import io.javalin.validation.Validator
 
 private val logger = KotlinLogging.logger {}
+
+const val ISDEVSYSTEM = true
+const val PORTNUMBER = 7000
 
 /**
  * The main function to run this application.
@@ -29,15 +34,12 @@ private val logger = KotlinLogging.logger {}
  * and Swagger UI documentation.
  */
 fun main() {
-    App.app.start(App.portNumber)
-    logger.info { "Check out ReDoc docs at http://localhost:${App.portNumber}/redoc" }
-    logger.info { "Check out Swagger UI docs at http://localhost:${App.portNumber}/swagger-ui" }
+    App().app.start(PORTNUMBER)
+    logger.info { "Check out ReDoc docs at http://localhost:$PORTNUMBER/redoc" }
+    logger.info { "Check out Swagger UI docs at http://localhost:$PORTNUMBER/swagger-ui" }
 }
 
-object App {
-    const val isDevSystem = false
-    const val portNumber = 7000
-
+class App {
     val app = Javalin.create { config: JavalinConfig ->
         val deprecatedDocsPath = "/openapi"
         config.plugins.register(
@@ -64,7 +66,7 @@ object App {
                                 openApiInfo.termsOfService = "http://{host}:8081/api/v1"
                             }
                             .withServer { server ->
-                                if (isDevSystem) {
+                                if (ISDEVSYSTEM) {
                                     server.url = "http://localhost:7000"
                                 } else {
                                     server.url = "https://kgrc4si.home.kg/score"
@@ -84,7 +86,7 @@ object App {
         config.plugins.register(
             SwaggerPlugin(
                 SwaggerConfiguration().apply {
-                    if (!isDevSystem) {
+                    if (!ISDEVSYSTEM) {
                         basePath = "/score"
                     }
                     uiPath = "/swagger-ui"
@@ -146,11 +148,16 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
     fun q1(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q1answer>()
+        val answer = ctx.bodyValidator(Q1answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+            .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -175,11 +182,16 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
     fun q2(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q2answer>()
+        val answer = ctx.bodyValidator(Q2answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+            .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -204,11 +216,16 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
     fun q3(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q3answer>()
+        val answer = ctx.bodyValidator(Q3answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+            .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -233,11 +250,16 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
     fun q4(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q3answer>()
+        val answer = ctx.bodyValidator(Q3answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+            .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -262,6 +284,7 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
@@ -291,11 +314,16 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
     fun q6(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q6answer>()
+        val answer = ctx.bodyValidator(Q6answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotBlank() }, "Answers must not be empty")
+            .get()
         logger.info { answer.answers }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -320,11 +348,16 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
     fun q7(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q7answer>()
+        val answer = ctx.bodyValidator(Q7answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+            .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -349,11 +382,17 @@ object App {
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
         ]
     )
     fun q8(ctx: Context) {
-        val answer = ctx.bodyAsClass<Q8answer>()
+        val answer = ctx.bodyValidator(Q8answer::class.java)
+            .check({ it.name.isNotBlank() }, "Name must not be empty")
+            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+            .get()
+
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -362,7 +401,8 @@ object App {
      * This function handles the GET request at the "/Senario/{id}" path.
      * It retrieves a scenario based on the ID provided in the path parameter.
      *
-     * @param ctx The context of the HTTP request. This should include a path parameter with the ID of the scenario to retrieve.
+     * @param ctx The context of the HTTP request.
+     * This should include a path parameter with the ID of the scenario to retrieve.
      * @return A JSON response with the requested scenario.
      */
     @OpenApi(
@@ -376,6 +416,7 @@ object App {
         methods = [HttpMethod.GET],
         responses = [
             OpenApiResponse("200", [OpenApiContent(SenarioAnswer::class)]),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("400", [OpenApiContent(ErrorResponse::class)])
         ]
     )

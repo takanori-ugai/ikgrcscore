@@ -13,7 +13,7 @@ data class Q5answer(
     val senario: String,
 
     @get:OpenApiRequired
-    val answers: Array<Q5data>
+    val answers: List<Q5data>
 
 )
 data class Q5data(

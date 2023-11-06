@@ -14,7 +14,7 @@ data class Q2answer(
 
     @get:OpenApiRequired
     @get:OpenApiExample("[ { \"name\": \"WALK\",   \"number\": 1 } ]")
-    val answers: Array<Q2data>
+    val answers: List<Q2data>
 
 )
 

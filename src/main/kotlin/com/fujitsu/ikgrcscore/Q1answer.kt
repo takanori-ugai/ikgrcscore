@@ -20,7 +20,7 @@ data class Q1answer(
     val senario: String,
 
     @get:OpenApiRequired
-    val answers: Array<Q1data>
+    val answers: List<Q1data>
 
 )
 
