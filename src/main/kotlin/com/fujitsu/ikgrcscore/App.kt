@@ -116,6 +116,8 @@ class App {
         get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
         get("/Senario/list", this::listSenario)
         get("/Senario/{id}", this::getSenario)
+        get("/Ranking", this::ranking)
+        get("/Ranking/{id}", this::getRank)
         post("/Q1", this::q1)
         post("/Q2", this::q2)
         post("/Q3", this::q3)
@@ -137,7 +139,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question1",
         operationId = "Question1",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q1",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -171,7 +173,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question2",
         operationId = "Question2",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q2",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -205,7 +207,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question3",
         operationId = "Question3",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q3",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -239,7 +241,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question4",
         operationId = "Question4",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q4",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -273,7 +275,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question5",
         operationId = "Question5",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q5",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -307,7 +309,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question6",
         operationId = "Question6",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q6",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -341,7 +343,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question7",
         operationId = "Question7",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q7",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -375,7 +377,7 @@ class App {
         description = "Show the score and ranking.",
         summary = "Question8",
         operationId = "Question8",
-        tags = ["user"],
+        tags = ["scoring"],
         path = "/Q8",
         requestBody = OpenApiRequestBody(
             required = true,
@@ -412,14 +414,14 @@ class App {
         deprecated = false,
         summary = "Get a senario",
         operationId = "senario",
-        tags = ["user"],
+        tags = ["senario"],
         path = "/Senario/{id}",
         pathParams = [OpenApiParam("id", String::class, "The Senario ID", false, true, example = "Senario1")],
         methods = [HttpMethod.GET],
         responses = [
             OpenApiResponse("200", [OpenApiContent(SenarioAnswer::class)]),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("400", [OpenApiContent(ErrorResponse::class)])
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
         ]
     )
     fun getSenario(ctx: Context) {
@@ -440,16 +442,67 @@ class App {
         deprecated = false,
         summary = "Get episodes",
         operationId = "senarioList",
-        tags = ["user"],
+        tags = ["senario"],
         path = "/Senario/list",
         methods = [HttpMethod.GET],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Array<String>::class)], description = "Success"),
-            OpenApiResponse("400", [OpenApiContent(ErrorResponse::class)])
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
         ]
     )
     fun listSenario(ctx: Context) {
         logger.info { "listSenario is called" }
         ctx.json(listOf("test1", "test2"))
+    }
+
+    /**
+     * This function handles GET requests to the /Ranking/{id} endpoint.
+     * It retrieves the rank of a team based on the provided team ID.
+     *
+     * @param ctx the context object which holds information about the HTTP request and response
+     */
+    @OpenApi(
+        description = "Get a rank",
+        deprecated = false,
+        summary = "Get a rank",
+        operationId = "ranking",
+        tags = ["ranking"],
+        path = "/Ranking/{id}",
+        pathParams = [OpenApiParam("id", String::class, "The Team ID", false, true, example = "TeamC")],
+        methods = [HttpMethod.GET],
+        responses = [
+            OpenApiResponse("200", [OpenApiContent(Ranking::class)]),
+            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
+        ]
+    )
+    fun getRank(ctx: Context) {
+        val answer = ctx.pathParam("id")
+        logger.info { "getRank is called : $answer" }
+        ctx.json(Ranking(answer, 2, 10.0))
+    }
+
+    /**
+     * This function handles GET requests to the /Ranking endpoint.
+     * It retrieves a list of all rankings.
+     *
+     * @param ctx the context object which holds information about the HTTP request and response
+     */
+    @OpenApi(
+        description = "Get ranking list",
+        deprecated = false,
+        summary = "Get ranking list",
+        operationId = "rankingList",
+        tags = ["ranking"],
+        path = "/Ranking",
+        methods = [HttpMethod.GET],
+        responses = [
+            OpenApiResponse("200", [OpenApiContent(RankingList::class)]),
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
+        ]
+    )
+    fun ranking(ctx: Context) {
+        logger.info { "ranking is called." }
+        ctx.json(RankingList(listOf(Ranking("TeamB", 2, 10.0))))
     }
 }

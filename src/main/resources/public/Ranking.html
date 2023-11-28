@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking Table</title>
+</head>
+<body>
+<h1>Leaderboard (Total Score)</h1>
+<table id="ranking-table" border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Rank</th>
+        <th>Score</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    // The URL where the ranking data is located
+    const rankingUrl = '/Ranking';
+
+    // Find the container where we will display the rankings
+    const tableBody = document.querySelector('#ranking-table tbody');
+
+    // Fetch the ranking data from the server
+    fetch(rankingUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(jsonData => {
+            // Iterate over the rankings and create table rows for each one
+            jsonData.rankings.forEach(ranking => {
+                const tableRow = document.createElement('tr');
+                tableRow.innerHTML = `
+                    <td>${ranking.id}</td>
+                    <td>${ranking.rank}</td>
+                    <td>${ranking.score}</td>
+                `;
+                tableBody.appendChild(tableRow);
+            });
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+</script>
+</body>
+</html>
