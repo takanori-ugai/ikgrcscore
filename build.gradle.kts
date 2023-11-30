@@ -29,17 +29,17 @@ dependencies {
 //    implementation(kotlin("stdlib"))
     implementation("io.javalin:javalin:5.6.3")
     kapt("io.javalin.community.openapi:openapi-annotation-processor:5.6.3")
-    implementation("io.javalin.community.openapi:javalin-openapi-plugin:5.6.3") // for /openapi route with JSON scheme
-    implementation("io.javalin.community.openapi:javalin-swagger-plugin:5.6.3") // for Swagger UI
-    implementation("io.javalin.community.openapi:javalin-redoc-plugin:5.6.3") // for ReDoc UI
+    implementation("io.javalin.community.openapi:javalin-openapi-plugin:5.6.3-2") // for /openapi route with JSON scheme
+    implementation("io.javalin.community.openapi:javalin-swagger-plugin:5.6.3-2") // for Swagger UI
+    implementation("io.javalin.community.openapi:javalin-redoc-plugin:5.6.3-2") // for ReDoc UI
     implementation("io.javalin:javalin-rendering:5.6.2")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
-    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.1")
 //    runtimeOnly("org.slf4j:slf4j-simple:2.+")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:2.+")
 //    testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testImplementation("io.javalin:javalin-testtools:5.6.3")
 }
 
