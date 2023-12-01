@@ -1,5 +1,7 @@
 package com.fujitsu.ikgrcscore
 
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.get
@@ -45,6 +47,12 @@ fun main() {
 }
 
 class App {
+    val conf = HikariConfig()
+    init {
+        conf.setJdbcUrl("jdbc:sqlite:test.db")
+    }
+    val ds = HikariDataSource(conf)
+    val sql = "select * from table1"
     val app = Javalin.create { config: JavalinConfig ->
         val deprecatedDocsPath = "/openapi"
         config.plugins.register(
@@ -160,6 +168,16 @@ class App {
         ]
     )
     fun q1(ctx: Context) {
+        ds.getConnection().use { con ->
+            con.prepareStatement(sql).use { ps ->
+                ps.executeQuery().use { rs ->
+                    // 実行結果を標準出力
+                    while (rs.next()) {
+                        logger.info {"${rs.getString(1)} | ${rs.getString(2)}"}
+                    }
+                }
+            }
+        }
         val answer = ctx.bodyValidator(Q1answer::class.java)
             .check({ it.name.isNotBlank() }, "Name must not be empty")
             .check({ it.senario.isNotBlank() }, "Senario must not be empty")
