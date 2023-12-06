@@ -13,12 +13,9 @@ import io.javalin.openapi.OpenApiExample
 data class ErrorResponse(
     @get:OpenApiExample("500")
     val statuCode: Int = 500,
-
     @get:OpenApiExample("POST")
     val method: String = "POST",
-
     @get:OpenApiExample("Server Error")
     val message: String,
-
-    val data: Map<String, Any> = emptyMap()
+    val data: Map<String, Any> = emptyMap(),
 )

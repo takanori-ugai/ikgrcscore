@@ -12,10 +12,8 @@ import io.javalin.openapi.OpenApiExample
 data class Ranking(
     @get:OpenApiExample("TeamA")
     val id: String,
-
     @get:OpenApiExample("1")
     val rank: Int,
-
     @get:OpenApiExample("20.0")
-    val score: Double
+    val score: Double,
 )

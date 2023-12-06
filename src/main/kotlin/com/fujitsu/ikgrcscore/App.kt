@@ -48,100 +48,105 @@ fun main() {
 
 class App {
     val conf = HikariConfig()
+
     init {
         conf.setJdbcUrl("jdbc:sqlite:test.db")
     }
+
     val ds = HikariDataSource(conf)
     val sql = "select * from table1"
-    val app = Javalin.create { config: JavalinConfig ->
-        val deprecatedDocsPath = "/openapi"
-        config.plugins.register(
-            OpenApiPlugin(
-                OpenApiPluginConfiguration()
-                    .withDocumentationPath(deprecatedDocsPath)
-                    .withDefinitionConfiguration { _, definition ->
-                        definition
-                            .withOpenApiInfo { openApiInfo ->
-                                openApiInfo.title = "RESTful API"
-                                openApiInfo.summary = "RESTful API"
-                                openApiInfo.description = "Backend API"
-                                openApiInfo.version = "0.0.1"
-                                openApiInfo.contact = OpenApiContact().apply {
-                                    name = "API Support"
-                                    url = "https://www.example.com/support"
-                                    email = "ugai@fujitsu.com"
+    val app =
+        Javalin.create { config: JavalinConfig ->
+            val deprecatedDocsPath = "/openapi"
+            config.plugins.register(
+                OpenApiPlugin(
+                    OpenApiPluginConfiguration()
+                        .withDocumentationPath(deprecatedDocsPath)
+                        .withDefinitionConfiguration { _, definition ->
+                            definition
+                                .withOpenApiInfo { openApiInfo ->
+                                    openApiInfo.title = "RESTful API"
+                                    openApiInfo.summary = "RESTful API"
+                                    openApiInfo.description = "Backend API"
+                                    openApiInfo.version = "0.0.1"
+                                    openApiInfo.contact =
+                                        OpenApiContact().apply {
+                                            name = "API Support"
+                                            url = "https://www.example.com/support"
+                                            email = "ugai@fujitsu.com"
+                                        }
+
+                                    openApiInfo.license =
+                                        OpenApiLicense().apply {
+                                            name = "Apache 2.0"
+                                            identifier = "Apache-2.0"
+                                        }
+                                    openApiInfo.termsOfService = "http://{host}:8081/api/v1"
                                 }
-
-                                openApiInfo.license = OpenApiLicense().apply {
-                                    name = "Apache 2.0"
-                                    identifier = "Apache-2.0"
+                                .withServer { server ->
+                                    if (ISDEVSYSTEM) {
+                                        server.url = "http://localhost:7000"
+                                    } else {
+                                        server.url = "https://kgrc4si.home.kg/score"
+                                    }
+                                    server.description = "go service api server endpoint application"
+                                    server.addVariable(
+                                        "host",
+                                        "localhost",
+                                        arrayOf("localhost"),
+                                        "Port of the server",
+                                    )
                                 }
-                                openApiInfo.termsOfService = "http://{host}:8081/api/v1"
-                            }
-                            .withServer { server ->
-                                if (ISDEVSYSTEM) {
-                                    server.url = "http://localhost:7000"
-                                } else {
-                                    server.url = "https://kgrc4si.home.kg/score"
-                                }
-                                server.description = "go service api server endpoint application"
-                                server.addVariable(
-                                    "host",
-                                    "localhost",
-                                    arrayOf("localhost"),
-                                    "Port of the server"
-                                )
-                            }
-                    }
+                        },
+                ),
             )
-        )
 
-        config.plugins.register(
-            SwaggerPlugin(
-                SwaggerConfiguration().apply {
-                    if (!ISDEVSYSTEM) {
-                        basePath = "/score"
-                    }
-                    uiPath = "/swagger-ui"
-                    documentationPath = deprecatedDocsPath
-                }
+            config.plugins.register(
+                SwaggerPlugin(
+                    SwaggerConfiguration().apply {
+                        if (!ISDEVSYSTEM) {
+                            basePath = "/score"
+                        }
+                        uiPath = "/swagger-ui"
+                        documentationPath = deprecatedDocsPath
+                    },
+                ),
             )
-        )
 
-        config.plugins.register(
-            ReDocPlugin(
-                ReDocConfiguration().apply {
-                    uiPath = "/redoc"
-                    documentationPath = deprecatedDocsPath
-                }
+            config.plugins.register(
+                ReDocPlugin(
+                    ReDocConfiguration().apply {
+                        uiPath = "/redoc"
+                        documentationPath = deprecatedDocsPath
+                    },
+                ),
             )
-        )
 
-        config.staticFiles.add { staticFiles ->
-            staticFiles.hostedPath = "/assets"
-            staticFiles.directory = "public"
-            staticFiles.location = Location.CLASSPATH
-            staticFiles.precompress = false
+            config.staticFiles.add { staticFiles ->
+                staticFiles.hostedPath = "/assets"
+                staticFiles.directory = "public"
+                staticFiles.location = Location.CLASSPATH
+                staticFiles.precompress = false
+            }
+
+            config.plugins.enableCors { cors ->
+                cors.add { it.anyHost() }
+            }
+        }.routes {
+            get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
+            get("/Senario/list", this::listSenario)
+            get("/Senario/{id}", this::getSenario)
+            get("/Ranking", this::ranking)
+            get("/Ranking/{id}", this::getRank)
+            post("/Q1", this::q1)
+            post("/Q2", this::q2)
+            post("/Q3", this::q3)
+            post("/Q4", this::q4)
+            post("/Q5", this::q5)
+            post("/Q6", this::q6)
+            post("/Q7", this::q7)
+            post("/Q8", this::q8)
         }
-
-        config.plugins.enableCors { cors ->
-            cors.add { it.anyHost() }
-        }
-    }.routes {
-        get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
-        get("/Senario/list", this::listSenario)
-        get("/Senario/{id}", this::getSenario)
-        get("/Ranking", this::ranking)
-        get("/Ranking/{id}", this::getRank)
-        post("/Q1", this::q1)
-        post("/Q2", this::q2)
-        post("/Q3", this::q3)
-        post("/Q4", this::q4)
-        post("/Q5", this::q5)
-        post("/Q6", this::q6)
-        post("/Q7", this::q7)
-        post("/Q8", this::q8)
-    }
 
     /**
      * This function handles the POST request at the "/Q1" path.
@@ -156,16 +161,17 @@ class App {
         operationId = "Question1",
         tags = ["scoring"],
         path = "/Q1",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q1answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q1answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q1(ctx: Context) {
         ds.getConnection().use { con ->
@@ -173,16 +179,17 @@ class App {
                 ps.executeQuery().use { rs ->
                     // 実行結果を標準出力
                     while (rs.next()) {
-                        logger.info {"${rs.getString(1)} | ${rs.getString(2)}"}
+                        logger.info { "${rs.getString(1)} | ${rs.getString(2)}" }
                     }
                 }
             }
         }
-        val answer = ctx.bodyValidator(Q1answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q1answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+                .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -200,23 +207,25 @@ class App {
         operationId = "Question2",
         tags = ["scoring"],
         path = "/Q2",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q2answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q2answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q2(ctx: Context) {
-        val answer = ctx.bodyValidator(Q2answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q2answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+                .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -234,23 +243,25 @@ class App {
         operationId = "Question3",
         tags = ["scoring"],
         path = "/Q3",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q3answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q3answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q3(ctx: Context) {
-        val answer = ctx.bodyValidator(Q3answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q3answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+                .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -268,23 +279,25 @@ class App {
         operationId = "Question4",
         tags = ["scoring"],
         path = "/Q4",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q3answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q3answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q4(ctx: Context) {
-        val answer = ctx.bodyValidator(Q3answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q3answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+                .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -302,23 +315,25 @@ class App {
         operationId = "Question5",
         tags = ["scoring"],
         path = "/Q5",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q5answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q5answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q5(ctx: Context) {
-        val answer = ctx.bodyValidator(Q5answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q5answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+                .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -336,23 +351,25 @@ class App {
         operationId = "Question6",
         tags = ["scoring"],
         path = "/Q6",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q6answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q6answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q6(ctx: Context) {
-        val answer = ctx.bodyValidator(Q6answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotBlank() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q6answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotBlank() }, "Answers must not be empty")
+                .get()
         logger.info { answer.answers }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -370,23 +387,25 @@ class App {
         operationId = "Question7",
         tags = ["scoring"],
         path = "/Q7",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q7answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q7answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q7(ctx: Context) {
-        val answer = ctx.bodyValidator(Q7answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q7answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+                .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
     }
@@ -404,23 +423,25 @@ class App {
         operationId = "Question8",
         tags = ["scoring"],
         path = "/Q8",
-        requestBody = OpenApiRequestBody(
-            required = true,
-            content = [OpenApiContent(Q8answer::class)]
-        ),
+        requestBody =
+            OpenApiRequestBody(
+                required = true,
+                content = [OpenApiContent(Q8answer::class)],
+            ),
         methods = [HttpMethod.POST],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Success::class)], description = "Success"),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server")
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)], description = "Error on Server"),
+        ],
     )
     fun q8(ctx: Context) {
-        val answer = ctx.bodyValidator(Q8answer::class.java)
-            .check({ it.name.isNotBlank() }, "Name must not be empty")
-            .check({ it.senario.isNotBlank() }, "Senario must not be empty")
-            .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
-            .get()
+        val answer =
+            ctx.bodyValidator(Q8answer::class.java)
+                .check({ it.name.isNotBlank() }, "Name must not be empty")
+                .check({ it.senario.isNotBlank() }, "Senario must not be empty")
+                .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
+                .get()
 
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(0.3, 3)))
@@ -446,8 +467,8 @@ class App {
         responses = [
             OpenApiResponse("200", [OpenApiContent(SenarioAnswer::class)]),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
+        ],
     )
     fun getSenario(ctx: Context) {
         val answer = ctx.pathParam("id")
@@ -472,8 +493,8 @@ class App {
         methods = [HttpMethod.GET],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Array<String>::class)], description = "Success"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
+        ],
     )
     fun listSenario(ctx: Context) {
         logger.info { "listSenario is called" }
@@ -498,8 +519,8 @@ class App {
         responses = [
             OpenApiResponse("200", [OpenApiContent(Ranking::class)]),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
+        ],
     )
     fun getRank(ctx: Context) {
         val answer = ctx.pathParam("id")
@@ -523,8 +544,8 @@ class App {
         methods = [HttpMethod.GET],
         responses = [
             OpenApiResponse("200", [OpenApiContent(RankingList::class)]),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)])
-        ]
+            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
+        ],
     )
     fun ranking(ctx: Context) {
         logger.info { "ranking is called." }

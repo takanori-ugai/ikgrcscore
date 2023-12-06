@@ -7,13 +7,10 @@ data class Q6answer(
     @get:OpenApiRequired
     @get:OpenApiExample("Takanori Ugai")
     val name: String,
-
     @get:OpenApiRequired
     @get:OpenApiExample("Senario1")
     val senario: String,
-
     @get:OpenApiRequired
     @get:OpenApiExample("Grab")
-    val answers: String
-
+    val answers: String,
 )
