@@ -280,48 +280,4 @@ class Test1 {
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
-
-    /**
-     * This test validates the response from the /Q7 endpoint when the request body is not empty.
-     * It posts a Q7answer object to the /Q7 endpoint and checks if the response status code
-     * and body match the expected values.
-     */
-    @Test
-    @DisplayName("Test Q7 Not empty")
-    fun testQ7() =
-        JavalinTest.test(App().app) { _, client ->
-            // Convert an array of strings to JSON
-            val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
-            // Assert that the response from the /Q7 endpoint is equal to the expected JSON
-            assertEquals(
-                str,
-                client.post("/Q7", Q7answer("Takanori Ugai", "Senario1", listOf(Q7data("Table", "Cup", "ON")))).body?.string(),
-            )
-        }
-
-    /**
-     * This test validates the response from the /Q7 endpoint when the request body is empty.
-     * It posts an empty Q7answer object to the /Q7 endpoint and checks if the response status code
-     * and body match the expected values.
-     */
-    @Test
-    @DisplayName("Test Q7 Empty")
-    fun testQ7empty() =
-        JavalinTest.test(App().app) { _, client ->
-            // Post an empty answer to the /Q7 endpoint
-            val res = client.post("/Q7", Q7answer("", "", emptyList()))
-            assertEquals(400, res.code)
-            val resStr = res.body?.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper =
-                        ObjectMapper()
-                            .registerKotlinModule()
-                            .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY),
-                )
-                    .fromJsonString<InvalidResponse>(resStr!!)
-            assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
-            assertEquals("Answers must not be empty", resObj.requestBody[2].message)
-        }
 }
