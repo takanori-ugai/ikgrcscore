@@ -30,7 +30,7 @@ dependencies {
     implementation("io.javalin:javalin:5.6.3")
     kapt("io.javalin.community.openapi:openapi-annotation-processor:5.6.3-2")
     implementation("io.javalin.community.openapi:javalin-openapi-plugin:5.6.3-2") // for /openapi route with JSON scheme
-    implementation("io.javalin.community.openapi:javalin-swagger-plugin:5.6.3-2") // for Swagger UI
+    implementation("io.javalin.community.openapi:javalin-swagger-plugin:5.6.3-3") // for Swagger UI
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:5.6.3-2") // for ReDoc UI
     implementation("io.javalin:javalin-rendering:5.6.3")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
