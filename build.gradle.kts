@@ -12,7 +12,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.10"
 //    id("com.github.sherter.google-java-format") version "0.9"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
     id("com.github.jk1.dependency-license-report") version "2.5"
     id("com.github.spotbugs") version "6.0.6"
     id("com.diffplug.spotless") version "6.23.3"
