@@ -3,8 +3,8 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    kotlin("jvm") version "1.9.21"
-    kotlin("kapt") version "1.9.21"
+    kotlin("jvm") version "1.9.22"
+    kotlin("kapt") version "1.9.22"
     java
     application
     jacoco
@@ -12,10 +12,10 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.10"
 //    id("com.github.sherter.google-java-format") version "0.9"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("org.jlleitschuh.gradle.ktlint") version "12.0.2"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
     id("com.github.jk1.dependency-license-report") version "2.5"
-    id("com.github.spotbugs") version "6.0.2"
-    id("com.diffplug.spotless") version "6.23.3"
+    id("com.github.spotbugs") version "6.0.7"
+    id("com.diffplug.spotless") version "6.25.0"
 }
 
 group = "com.fujitsu.labs.ikgrcscore"
@@ -28,15 +28,15 @@ repositories {
 dependencies {
 //    implementation(kotlin("stdlib"))
     implementation("io.javalin:javalin:5.6.3")
-    kapt("io.javalin.community.openapi:openapi-annotation-processor:5.6.3-2")
-    implementation("io.javalin.community.openapi:javalin-openapi-plugin:5.6.3-2") // for /openapi route with JSON scheme
-    implementation("io.javalin.community.openapi:javalin-swagger-plugin:5.6.3-2") // for Swagger UI
-    implementation("io.javalin.community.openapi:javalin-redoc-plugin:5.6.3-2") // for ReDoc UI
-    implementation("io.javalin:javalin-rendering:5.6.2")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
-    implementation("io.github.oshai:kotlin-logging-jvm:5.1.1")
-    implementation("org.xerial:sqlite-jdbc:3.44.1.0")
+    kapt("io.javalin.community.openapi:openapi-annotation-processor:5.6.3-3")
+    implementation("io.javalin.community.openapi:javalin-openapi-plugin:5.6.3-3") // for /openapi route with JSON scheme
+    implementation("io.javalin.community.openapi:javalin-swagger-plugin:5.6.3-3") // for Swagger UI
+    implementation("io.javalin.community.openapi:javalin-redoc-plugin:5.6.3-3") // for ReDoc UI
+    implementation("io.javalin:javalin-rendering:5.6.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
+    implementation("io.github.oshai:kotlin-logging-jvm:6.0.3")
+    implementation("org.xerial:sqlite-jdbc:3.45.0.0")
     implementation("com.zaxxer:HikariCP:5.1.0")
 
 //    runtimeOnly("org.slf4j:slf4j-simple:2.+")
@@ -146,7 +146,7 @@ spotless {
         removeUnusedImports()
 
         // Choose one of these formatters.
-        googleJavaFormat("1.17.0") // has its own section below
+        googleJavaFormat("1.18.1") // has its own section below
         formatAnnotations() // fixes formatting of type annotations, see below
     }
 }
