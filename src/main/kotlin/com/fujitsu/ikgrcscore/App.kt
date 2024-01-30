@@ -19,10 +19,7 @@ import io.javalin.openapi.OpenApiParam
 import io.javalin.openapi.OpenApiRequestBody
 import io.javalin.openapi.OpenApiResponse
 import io.javalin.openapi.plugin.OpenApiPlugin
-import io.javalin.openapi.plugin.OpenApiPluginConfiguration
-import io.javalin.openapi.plugin.redoc.ReDocConfiguration
 import io.javalin.openapi.plugin.redoc.ReDocPlugin
-import io.javalin.openapi.plugin.swagger.SwaggerConfiguration
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin
 import io.javalin.validation.ValidationError
 
@@ -58,68 +55,59 @@ class App {
     val app =
         Javalin.create { config: JavalinConfig ->
             val deprecatedDocsPath = "/openapi"
-            config.plugins.register(
-                OpenApiPlugin(
-                    OpenApiPluginConfiguration()
-                        .withDocumentationPath(deprecatedDocsPath)
-                        .withDefinitionConfiguration { _, definition ->
-                            definition
-                                .withOpenApiInfo { openApiInfo ->
-                                    openApiInfo.title = "RESTful API"
-                                    openApiInfo.summary = "RESTful API"
-                                    openApiInfo.description = "Backend API"
-                                    openApiInfo.version = "0.0.1"
-                                    openApiInfo.contact =
-                                        OpenApiContact().apply {
-                                            name = "API Support"
-                                            url = "https://www.example.com/support"
-                                            email = "ugai@fujitsu.com"
-                                        }
-
-                                    openApiInfo.license =
-                                        OpenApiLicense().apply {
-                                            name = "Apache 2.0"
-                                            identifier = "Apache-2.0"
-                                        }
-                                    openApiInfo.termsOfService = "http://{host}:8081/api/v1"
+            config.registerPlugin(
+                OpenApiPlugin { pluginConfig ->
+                    pluginConfig.withDefinitionConfiguration { _, definition ->
+                        definition.withOpenApiInfo { openApiInfo ->
+                            openApiInfo.title = "RESTful API"
+                            openApiInfo.summary = "RESTful API"
+                            openApiInfo.description = "Backend API"
+                            openApiInfo.version = "0.0.1"
+                            openApiInfo.contact =
+                                OpenApiContact().apply {
+                                    name = "API Support"
+                                    url = "https://www.example.com/support"
+                                    email = "ugai@fujitsu.com"
                                 }
-                                .withServer { server ->
-                                    if (ISDEVSYSTEM) {
-                                        server.url = "http://localhost:7000"
-                                    } else {
-                                        server.url = "https://kgrc4si.home.kg/score"
-                                    }
-                                    server.description = "go service api server endpoint application"
-                                    server.addVariable(
-                                        "host",
-                                        "localhost",
-                                        arrayOf("localhost"),
-                                        "Port of the server",
-                                    )
+                            openApiInfo.license =
+                                OpenApiLicense().apply {
+                                    name = "Apache 2.0"
+                                    identifier = "Apache-2.0"
                                 }
-                        },
-                ),
-            )
-
-            config.plugins.register(
-                SwaggerPlugin(
-                    SwaggerConfiguration().apply {
-                        if (!ISDEVSYSTEM) {
-                            basePath = "/score"
+                            openApiInfo.termsOfService = "http://{host}:8081/api/v1"
+                        }.withServer { server ->
+                            if (ISDEVSYSTEM) {
+                                server.url = "http://localhost:7000"
+                            } else {
+                                server.url = "https://kgrc4si.home.kg/score"
+                            }
+                            server.description = "go service api server endpoint application"
+                            server.addVariable(
+                                "host",
+                                "localhost",
+                                arrayOf("localhost"),
+                                "Port of the server",
+                            )
                         }
-                        uiPath = "/swagger-ui"
-                        documentationPath = deprecatedDocsPath
-                    },
-                ),
+                    }
+                },
             )
 
-            config.plugins.register(
-                ReDocPlugin(
-                    ReDocConfiguration().apply {
-                        uiPath = "/redoc"
-                        documentationPath = deprecatedDocsPath
-                    },
-                ),
+            config.registerPlugin(
+                SwaggerPlugin { swaggerConfiguration ->
+                    if (!ISDEVSYSTEM) {
+                        swaggerConfiguration.basePath = "/score"
+                    }
+                    swaggerConfiguration.uiPath = "/swagger-ui"
+                    swaggerConfiguration.documentationPath = deprecatedDocsPath
+                },
+            )
+
+            config.registerPlugin(
+                ReDocPlugin { redocConfig ->
+                    redocConfig.uiPath = "/redoc"
+                    redocConfig.documentationPath = deprecatedDocsPath
+                },
             )
 
             config.staticFiles.add { staticFiles ->
@@ -129,23 +117,27 @@ class App {
                 staticFiles.precompress = false
             }
 
-            config.plugins.enableCors { cors ->
-                cors.add { it.anyHost() }
+            config.bundledPlugins.enableCors { cors ->
+                cors.addRule {
+                    it.anyHost()
+                }
             }
-        }.routes {
-            get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
-            get("/Senario/list", this::listSenario)
-            get("/Senario/{id}", this::getSenario)
-            get("/Ranking", this::ranking)
-            get("/Ranking/{id}", this::getRank)
-            post("/Q1", this::q1)
-            post("/Q2", this::q2)
-            post("/Q3", this::q3)
-            post("/Q4", this::q4)
-            post("/Q5", this::q5)
-            post("/Q6", this::q6)
-            post("/Q7", this::q7)
-            post("/Q8", this::q8)
+
+            config.router.apiBuilder {
+                get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
+                get("/Senario/list", this::listSenario)
+                get("/Senario/{id}", this::getSenario)
+                get("/Ranking", this::ranking)
+                get("/Ranking/{id}", this::getRank)
+                post("/Q1", this::q1)
+                post("/Q2", this::q2)
+                post("/Q3", this::q3)
+                post("/Q4", this::q4)
+                post("/Q5", this::q5)
+                post("/Q6", this::q6)
+                post("/Q7", this::q7)
+                post("/Q8", this::q8)
+            }
         }
 
     /**

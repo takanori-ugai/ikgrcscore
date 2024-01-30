@@ -37,7 +37,7 @@ class TestQ8 {
                     Q8answer(
                         "Takanori Ugai",
                         "Senario1",
-                        listOf(Q8data("Table", listOf(Q8element(listOf(1.1, 2.5, 3.2), listOf("ON", "CLEAN"))))),
+                        setOf(Q8data("Table", setOf(Q8element(listOf(1.1, 2.5, 3.2), setOf("ON", "CLEAN"))))),
                     ),
                 ).body?.string(),
             )
@@ -53,7 +53,7 @@ class TestQ8 {
     fun testQ8empty() =
         JavalinTest.test(App().app) { _, client ->
             // Post an empty answer to the /Q8 endpoint
-            val res = client.post("/Q8", Q8answer("", "", emptyList()))
+            val res = client.post("/Q8", Q8answer("", "", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body?.string()
             val resObj =

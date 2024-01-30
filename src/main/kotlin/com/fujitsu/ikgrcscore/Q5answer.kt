@@ -11,7 +11,7 @@ data class Q5answer(
     @get:OpenApiExample("Senario1")
     val senario: String,
     @get:OpenApiRequired
-    val answers: List<Q5data>,
+    val answers: Set<Q5data>,
 )
 
 data class Q5data(
@@ -20,5 +20,5 @@ data class Q5data(
     @get:OpenApiExample("LivingRoom")
     val room: String,
     @get:OpenApiExample("[ \"Cup\" ]")
-    val obj: List<String>,
+    val obj: Set<String>,
 )

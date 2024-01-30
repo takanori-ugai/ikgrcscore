@@ -12,7 +12,7 @@ data class Q2answer(
     val senario: String,
     @get:OpenApiRequired
     @get:OpenApiExample("[ { \"name\": \"WALK\",   \"number\": 1 } ]")
-    val answers: List<Q2data>,
+    val answers: Set<Q2data>,
 )
 
 data class Q2data(

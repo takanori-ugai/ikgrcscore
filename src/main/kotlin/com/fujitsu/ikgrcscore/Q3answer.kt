@@ -12,5 +12,5 @@ data class Q3answer(
     val senario: String,
     @get:OpenApiRequired
     @get:OpenApiExample("[ \"WALK\",   \"GRAB\" ]")
-    val answers: List<String>,
+    val answers: Set<String>,
 )

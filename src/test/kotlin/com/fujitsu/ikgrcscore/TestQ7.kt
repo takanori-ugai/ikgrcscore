@@ -32,7 +32,7 @@ class TestQ7 {
             // Assert that the response from the /Q7 endpoint is equal to the expected JSON
             assertEquals(
                 str,
-                client.post("/Q7", Q7answer("Takanori Ugai", "Senario1", listOf(Q7data("Table", "Cup", "ON")))).body?.string(),
+                client.post("/Q7", Q7answer("Takanori Ugai", "Senario1", setOf(Q7data("Table", "Cup", "ON")))).body?.string(),
             )
         }
 
@@ -46,7 +46,7 @@ class TestQ7 {
     fun testQ7empty() =
         JavalinTest.test(App().app) { _, client ->
             // Post an empty answer to the /Q7 endpoint
-            val res = client.post("/Q7", Q7answer("", "", emptyList()))
+            val res = client.post("/Q7", Q7answer("", "", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body?.string()
             val resObj =

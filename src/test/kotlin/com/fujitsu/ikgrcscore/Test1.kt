@@ -1,6 +1,5 @@
 package com.fujitsu.ikgrcscore
 
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -63,7 +62,7 @@ class Test1 {
             // Convert an array of strings to JSON
             val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
             // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q1", Q1answer("A", "B", listOf(Q1data("C", 1)))).body?.string())
+            assertEquals(str, client.post("/Q1", Q1answer("A", "B", setOf(Q1data("C", 1)))).body?.string())
         }
 
     /**
@@ -74,7 +73,7 @@ class Test1 {
     @DisplayName("Test Q1 Empty")
     fun testQ1empty() =
         JavalinTest.test(App().app) { _, client ->
-            val res = client.post("/Q1", Q1answer("", "", emptyList()))
+            val res = client.post("/Q1", Q1answer("", "", emptySet()))
             logger.info { res.code }
             assertEquals(400, res.code)
             val resStr = res.body?.string()
@@ -101,7 +100,7 @@ class Test1 {
             val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
             // Assert that the response from the /Q2 endpoint is equal to the expected JSON
             // Replace Q1answer and Q1data with the appropriate classes for Q2
-            assertEquals(str, client.post("/Q2", Q2answer("A", "B", listOf(Q2data("NAME", 2)))).body?.string())
+            assertEquals(str, client.post("/Q2", Q2answer("A", "B", setOf(Q2data("NAME", 2)))).body?.string())
         }
 
     /**
@@ -114,7 +113,7 @@ class Test1 {
         JavalinTest.test(App().app) { _, client ->
             // Post an empty answer to the /Q2 endpoint
             // Replace Q1answer with the appropriate class for Q2
-            val res = client.post("/Q2", Q2answer("", "", emptyList()))
+            val res = client.post("/Q2", Q2answer("", "", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body?.string()
             val resObj =
@@ -134,7 +133,7 @@ class Test1 {
             // Convert an array of strings to JSON
             val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
             // Assert that the response from the /Q3 endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q3", Q3answer("A", "B", listOf("C"))).body?.string())
+            assertEquals(str, client.post("/Q3", Q3answer("A", "B", setOf("C"))).body?.string())
         }
 
     @Test
@@ -142,7 +141,7 @@ class Test1 {
     fun testQ3empty() =
         JavalinTest.test(App().app) { _, client ->
             // Post an empty answer to the /Q3 endpoint
-            val res = client.post("/Q3", Q3answer("", "", emptyList()))
+            val res = client.post("/Q3", Q3answer("", "", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body?.string()
             val resObj =
@@ -167,7 +166,7 @@ class Test1 {
             // Convert an array of strings to JSON
             val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
             // Assert that the response from the /Q4 endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q4", Q3answer("A", "B", listOf("C"))).body?.string())
+            assertEquals(str, client.post("/Q4", Q3answer("A", "B", setOf("C"))).body?.string())
         }
 
     /**
@@ -180,7 +179,7 @@ class Test1 {
     fun testQ4empty() =
         JavalinTest.test(App().app) { _, client ->
             // Post an empty answer to the /Q4 endpoint
-            val res = client.post("/Q4", Q3answer("", "", emptyList()))
+            val res = client.post("/Q4", Q3answer("", "", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body?.string()
             val resObj =
@@ -212,7 +211,7 @@ class Test1 {
                     Q5answer(
                         "A",
                         "B",
-                        listOf(Q5data("2022-01-01T00:00:20.005", "LivingRoom", listOf("Cup"))),
+                        setOf(Q5data("2022-01-01T00:00:20.005", "LivingRoom", setOf("Cup"))),
                     ),
                 ).body?.string(),
             )
@@ -228,7 +227,7 @@ class Test1 {
     fun testQ5empty() =
         JavalinTest.test(App().app) { _, client ->
             // Post an empty answer to the /Q5 endpoint
-            val res = client.post("/Q5", Q5answer("", "", emptyList()))
+            val res = client.post("/Q5", Q5answer("", "", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body?.string()
             val resObj =

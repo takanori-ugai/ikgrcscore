@@ -18,7 +18,7 @@ data class Q1answer(
     @get:OpenApiExample("Senario1")
     val senario: String,
     @get:OpenApiRequired
-    val answers: List<Q1data>,
+    val answers: Set<Q1data>,
 )
 
 /**

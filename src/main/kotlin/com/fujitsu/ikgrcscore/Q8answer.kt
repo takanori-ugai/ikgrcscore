@@ -11,19 +11,19 @@ data class Q8answer(
     @get:OpenApiExample("Senario1")
     val senario: String,
     @get:OpenApiRequired
-    val answers: List<Q8data>,
+    val answers: Set<Q8data>,
 )
 
 data class Q8data(
     @get:OpenApiExample("Table")
     val name: String,
     @get:OpenApiExample("Cup")
-    val change: List<Q8element>,
+    val change: Set<Q8element>,
 )
 
 data class Q8element(
     @get:OpenApiExample("[ 1.1, 2.5, 3.2]")
     val place: List<Double>,
     @get:OpenApiExample("[\"ON\", \"CLEAN\"]")
-    val status: List<String>,
+    val status: Set<String>,
 )
