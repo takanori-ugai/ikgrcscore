@@ -32,7 +32,7 @@ dependencies {
     implementation("io.javalin.community.openapi:javalin-openapi-plugin:6.0.0") // for /openapi route with JSON scheme
     implementation("io.javalin.community.openapi:javalin-swagger-plugin:6.0.0") // for Swagger UI
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:6.0.0") // for ReDoc UI
-    implementation("io.javalin:javalin-rendering:6.0.0")
+    implementation("io.javalin:javalin-rendering:6.0.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
     implementation("io.github.oshai:kotlin-logging-jvm:6.0.3")
