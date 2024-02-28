@@ -28,7 +28,7 @@ repositories {
 dependencies {
 //    implementation(kotlin("stdlib"))
     implementation("io.javalin:javalin:6.1.0")
-    kapt("io.javalin.community.openapi:openapi-annotation-processor:6.1.0")
+    kapt("io.javalin.community.openapi:openapi-annotation-processor:6.1.2")
     implementation("io.javalin.community.openapi:javalin-openapi-plugin:6.1.2") // for /openapi route with JSON scheme
     implementation("io.javalin.community.openapi:javalin-swagger-plugin:6.1.0") // for Swagger UI
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:6.1.0") // for ReDoc UI
