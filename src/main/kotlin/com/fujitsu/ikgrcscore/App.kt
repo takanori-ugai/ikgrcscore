@@ -58,7 +58,7 @@ class App {
             config.registerPlugin(
                 OpenApiPlugin { pluginConfig ->
                     pluginConfig.withDefinitionConfiguration { _, definition ->
-                        definition.withOpenApiInfo { openApiInfo ->
+                        definition.withInfo { openApiInfo ->
                             openApiInfo.title = "RESTful API"
                             openApiInfo.summary = "RESTful API"
                             openApiInfo.description = "Backend API"
