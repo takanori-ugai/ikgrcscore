@@ -44,10 +44,10 @@ fun main() {
 }
 
 class App {
-    val conf = HikariConfig()
+    private val conf = HikariConfig()
 
     init {
-        conf.setJdbcUrl("jdbc:sqlite:test.db")
+        conf.jdbcUrl = "jdbc:sqlite:test.db"
     }
 
     val ds = HikariDataSource(conf)
@@ -166,7 +166,7 @@ class App {
         ],
     )
     fun q1(ctx: Context) {
-        ds.getConnection().use { con ->
+        ds.connection.use { con ->
             con.prepareStatement(sql).use { ps ->
                 ps.executeQuery().use { rs ->
                     // 実行結果を標準出力
@@ -454,7 +454,7 @@ class App {
         operationId = "senario",
         tags = ["senario"],
         path = "/Senario/{id}",
-        pathParams = [OpenApiParam("id", String::class, "The Senario ID", false, true, example = "Senario1")],
+        pathParams = [OpenApiParam("id", String::class, "The Senario ID", false, true, example = "Scenario1")],
         methods = [HttpMethod.GET],
         responses = [
             OpenApiResponse("200", [OpenApiContent(SenarioAnswer::class)]),
