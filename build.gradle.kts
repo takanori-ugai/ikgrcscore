@@ -4,7 +4,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     kotlin("jvm") version "2.0.0"
-    kotlin("kapt") version "1.9.24"
+    kotlin("kapt") version "2.0.0"
     java
     application
     jacoco
