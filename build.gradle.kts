@@ -34,7 +34,7 @@ dependencies {
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:6.1.6") // for ReDoc UI
     implementation("io.javalin:javalin-rendering:6.1.6")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
     implementation("org.xerial:sqlite-jdbc:3.46.0.0")
     implementation("com.zaxxer:HikariCP:5.1.0")
