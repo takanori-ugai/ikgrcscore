@@ -43,7 +43,7 @@ dependencies {
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:2.+")
 //    testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
-    testImplementation("io.javalin:javalin-testtools:6.3.0")
+    testImplementation("io.javalin:javalin-testtools:6.4.0")
 }
 
 tasks {
