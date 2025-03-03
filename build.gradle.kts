@@ -8,7 +8,7 @@ plugins {
     java
     application
     jacoco
-    id("io.gitlab.arturbosch.detekt") version "1.23.7"
+    id("io.gitlab.arturbosch.detekt") version "1.23.8"
     id("org.jetbrains.dokka") version "2.0.0"
 //    id("com.github.sherter.google-java-format") version "0.9"
     id("com.github.johnrengelman.shadow") version "8.1.1"
