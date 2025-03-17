@@ -35,7 +35,7 @@ dependencies {
     implementation("io.javalin:javalin-rendering:6.5.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3")
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.4")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.5")
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
     implementation("com.zaxxer:HikariCP:6.2.1")
 
