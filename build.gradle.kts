@@ -45,7 +45,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.12.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("io.javalin:javalin-testtools:6.5.0")
+    testImplementation("io.javalin:javalin-testtools:6.6.0")
 }
 
 tasks {
