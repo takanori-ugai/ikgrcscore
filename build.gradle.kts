@@ -3,7 +3,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.1.21"
     kotlin("kapt") version "2.1.20"
     java
     application
