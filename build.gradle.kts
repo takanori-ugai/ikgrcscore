@@ -42,7 +42,7 @@ dependencies {
 //    runtimeOnly("org.slf4j:slf4j-simple:2.+")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:2.+")
 //    testImplementation(kotlin("test"))
-    testImplementation(platform("org.junit:junit-bom:5.13.0"))
+    testImplementation(platform("org.junit:junit-bom:5.13.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("io.javalin:javalin-testtools:6.6.0")
