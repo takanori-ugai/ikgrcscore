@@ -1,10 +1,11 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    kotlin("jvm") version "2.1.21"
-    kotlin("kapt") version "2.1.21"
+    kotlin("jvm") version "2.2.0"
+    kotlin("kapt") version "2.2.0"
     java
     application
     jacoco
@@ -50,11 +51,11 @@ dependencies {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions.jvmTarget = JvmTarget.JVM_17
     }
 
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions.jvmTarget = JvmTarget.JVM_17
     }
 
     compileJava {
