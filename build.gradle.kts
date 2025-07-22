@@ -153,7 +153,7 @@ spotless {
         removeUnusedImports()
 
         // Choose one of these formatters.
-        googleJavaFormat("1.26.0") // has its own section below
+        googleJavaFormat("1.28.0") // has its own section below
         formatAnnotations() // fixes formatting of type annotations, see below
     }
 }
