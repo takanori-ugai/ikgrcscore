@@ -34,8 +34,8 @@ dependencies {
     implementation("io.javalin.community.openapi:javalin-swagger-plugin:6.7.0-1") // for Swagger UI
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:6.7.0-1") // for ReDoc UI
     implementation("io.javalin:javalin-rendering:6.7.0")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.19.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
     implementation("org.xerial:sqlite-jdbc:3.50.2.0")
     implementation("com.zaxxer:HikariCP:6.3.0")
@@ -43,7 +43,7 @@ dependencies {
 //    runtimeOnly("org.slf4j:slf4j-simple:2.+")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:2.+")
 //    testImplementation(kotlin("test"))
-    testImplementation(platform("org.junit:junit-bom:5.13.3"))
+    testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("io.javalin:javalin-testtools:6.7.0")
@@ -153,7 +153,7 @@ spotless {
         removeUnusedImports()
 
         // Choose one of these formatters.
-        googleJavaFormat("1.26.0") // has its own section below
+        googleJavaFormat("1.28.0") // has its own section below
         formatAnnotations() // fixes formatting of type annotations, see below
     }
 }
