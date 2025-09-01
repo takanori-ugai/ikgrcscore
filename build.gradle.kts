@@ -34,7 +34,7 @@ dependencies {
     implementation("io.javalin.community.openapi:javalin-swagger-plugin:6.7.0-1") // for Swagger UI
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:6.7.0-1") // for ReDoc UI
     implementation("io.javalin:javalin-rendering:6.7.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.19.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.13")
     implementation("org.xerial:sqlite-jdbc:3.50.3.0")
