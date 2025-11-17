@@ -25,12 +25,10 @@ jobs:
         with:
           java-version: ${{ matrix.java_version }}
           distribution: 'temurin'
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v5.0.0
       - name: Build with Gradle & JDK ${{ matrix.java_version }}
-        uses: gradle/gradle-build-action@v5.0.0
-        with:
-          arguments: build
+        uses: gradle/actions/setup-gradle@v5.0.0
+      - name: Build with Gradle
+        run: ./gradlew build
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5.4.3
         with:
