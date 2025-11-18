@@ -24,7 +24,7 @@ class Test1 {
     @Test
     @DisplayName("Test Senario/list")
     fun testHelloPageDefaultValues() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
             val str = JavalinJackson().toJsonString(listOf("test1", "test2"))
             // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
@@ -40,7 +40,7 @@ class Test1 {
     @Test
     @DisplayName("Test Senario/id")
     fun testSenarioId() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
             val str =
                 JavalinJackson().toJsonString(
@@ -58,9 +58,12 @@ class Test1 {
     @Test
     @DisplayName("Test Q1 Not empty")
     fun testQ1() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
-            val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
+            val str =
+                JavalinJackson().toJsonString(
+                    Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
+                )
             // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
             assertEquals(str, client.post("/Q1", Q1answer("A", "B", setOf(Q1data("C", 1)))).body?.string())
         }
@@ -72,7 +75,7 @@ class Test1 {
     @Test
     @DisplayName("Test Q1 Empty")
     fun testQ1empty() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             val res = client.post("/Q1", Q1answer("", "", emptySet()))
             logger.info { res.code }
             assertEquals(400, res.code)
@@ -95,9 +98,12 @@ class Test1 {
     @Test
     @DisplayName("Test Q2 Not empty")
     fun testQ2() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
-            val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
+            val str =
+                JavalinJackson().toJsonString(
+                    Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
+                )
             // Assert that the response from the /Q2 endpoint is equal to the expected JSON
             // Replace Q1answer and Q1data with the appropriate classes for Q2
             assertEquals(str, client.post("/Q2", Q2answer("A", "B", setOf(Q2data("NAME", 2)))).body?.string())
@@ -110,7 +116,7 @@ class Test1 {
     @Test
     @DisplayName("Test Q2 Empty")
     fun testQ2empty() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Post an empty answer to the /Q2 endpoint
             // Replace Q1answer with the appropriate class for Q2
             val res = client.post("/Q2", Q2answer("", "", emptySet()))
@@ -129,9 +135,12 @@ class Test1 {
     @Test
     @DisplayName("Test Q3 Not empty")
     fun testQ3() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
-            val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
+            val str =
+                JavalinJackson().toJsonString(
+                    Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
+                )
             // Assert that the response from the /Q3 endpoint is equal to the expected JSON
             assertEquals(str, client.post("/Q3", Q3answer("A", "B", setOf("C"))).body?.string())
         }
@@ -139,7 +148,7 @@ class Test1 {
     @Test
     @DisplayName("Test Q3 Empty")
     fun testQ3empty() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Post an empty answer to the /Q3 endpoint
             val res = client.post("/Q3", Q3answer("", "", emptySet()))
             assertEquals(400, res.code)
@@ -162,9 +171,12 @@ class Test1 {
     @Test
     @DisplayName("Test Q4 Not empty")
     fun testQ4() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
-            val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
+            val str =
+                JavalinJackson().toJsonString(
+                    Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
+                )
             // Assert that the response from the /Q4 endpoint is equal to the expected JSON
             assertEquals(str, client.post("/Q4", Q3answer("A", "B", setOf("C"))).body?.string())
         }
@@ -177,7 +189,7 @@ class Test1 {
     @Test
     @DisplayName("Test Q4 Empty")
     fun testQ4empty() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Post an empty answer to the /Q4 endpoint
             val res = client.post("/Q4", Q3answer("", "", emptySet()))
             assertEquals(400, res.code)
@@ -200,9 +212,12 @@ class Test1 {
     @Test
     @DisplayName("Test Q5 Not empty")
     fun testQ5() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
-            val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
+            val str =
+                JavalinJackson().toJsonString(
+                    Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
+                )
             // Assert that the response from the /Q5 endpoint is equal to the expected JSON
             assertEquals(
                 str,
@@ -225,7 +240,7 @@ class Test1 {
     @Test
     @DisplayName("Test Q5 Empty")
     fun testQ5empty() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Post an empty answer to the /Q5 endpoint
             val res = client.post("/Q5", Q5answer("", "", emptySet()))
             assertEquals(400, res.code)
@@ -250,9 +265,12 @@ class Test1 {
     @Test
     @DisplayName("Test Q6 Not empty")
     fun testQ6() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
-            val str = JavalinJackson().toJsonString(Success(data = SuccessData(0.3, 3)))
+            val str =
+                JavalinJackson().toJsonString(
+                    Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
+                )
             // Assert that the response from the /Q6 endpoint is equal to the expected JSON
             assertEquals(str, client.post("/Q6", Q6answer("Takanori Ugai", "Senario1", "Grab")).body?.string())
         }
@@ -265,7 +283,7 @@ class Test1 {
     @Test
     @DisplayName("Test Q6 Empty")
     fun testQ6empty() =
-        JavalinTest.test(App().app) { _, client ->
+        JavalinTest.test(App().javalinApp) { _, client ->
             // Post an empty answer to the /Q6 endpoint
             val res = client.post("/Q6", Q6answer("", "", ""))
             assertEquals(400, res.code)

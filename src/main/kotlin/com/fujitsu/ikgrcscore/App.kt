@@ -38,7 +38,7 @@ const val PORTNUMBER = 7000
  * and Swagger UI documentation.
  */
 fun main() {
-    App().app.start(PORTNUMBER)
+    App().javalinApp.start(PORTNUMBER)
     logger.info { "Check out ReDoc docs at http://localhost:$PORTNUMBER/redoc" }
     logger.info { "Check out Swagger UI docs at http://localhost:$PORTNUMBER/swagger-ui" }
 }
@@ -52,7 +52,7 @@ class App {
 
     val ds = HikariDataSource(conf)
     val sql = "select * from table1"
-    val app =
+    val javalinApp =
         Javalin.create { config: JavalinConfig ->
             val deprecatedDocsPath = "/openapi"
             config.registerPlugin(
@@ -124,9 +124,10 @@ class App {
             }
 
             config.router.apiBuilder {
+                val senarioHandler = SenarioHandler()
                 get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
-                get("/Senario/list", this::listSenario)
-                get("/Senario/{id}", this::getSenario)
+                get("/Senario/list", senarioHandler::listSenario)
+                get("/Senario/{id}", senarioHandler::getSenario)
                 get("/Ranking", this::ranking)
                 get("/Ranking/{id}", this::getRank)
                 post("/Q1", this::q1)
@@ -183,7 +184,7 @@ class App {
                 .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -219,7 +220,7 @@ class App {
                 .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -255,7 +256,7 @@ class App {
                 .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -291,7 +292,7 @@ class App {
                 .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -327,7 +328,7 @@ class App {
                 .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -363,7 +364,7 @@ class App {
                 .check({ it.answers.isNotBlank() }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -399,7 +400,7 @@ class App {
                 .check({ it.answers.isNotEmpty() }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -436,61 +437,7 @@ class App {
                 .get()
 
         logger.info { answer.answers.size }
-        ctx.json(Success(data = SuccessData(0.3, 3)))
-    }
-
-    /**
-     * This function handles the GET request at the "/Senario/{id}" path.
-     * It retrieves a scenario based on the ID provided in the path parameter.
-     *
-     * @param ctx The context of the HTTP request.
-     * This should include a path parameter with the ID of the scenario to retrieve.
-     * @return A JSON response with the requested scenario.
-     */
-    @OpenApi(
-        description = "Get a senario",
-        deprecated = false,
-        summary = "Get a senario",
-        operationId = "senario",
-        tags = ["senario"],
-        path = "/Senario/{id}",
-        pathParams = [OpenApiParam("id", String::class, "The Senario ID", false, true, example = "Scenario1")],
-        methods = [HttpMethod.GET],
-        responses = [
-            OpenApiResponse("200", [OpenApiContent(SenarioAnswer::class)]),
-            OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
-        ],
-    )
-    fun getSenario(ctx: Context) {
-        val answer = ctx.pathParam("id")
-        logger.info { "getSenario is called : $answer" }
-        ctx.json(SenarioAnswer(data = Senario("Senario1", "Senario1", 1, listOf("Test"))))
-    }
-
-    /**
-     * This function handles the GET request at the "/Senario/list" path.
-     * It retrieves a list of all scenarios.
-     *
-     * @param ctx The context of the HTTP request.
-     * @return A JSON response with a list of all scenarios.
-     */
-    @OpenApi(
-        description = "Get episodes",
-        deprecated = false,
-        summary = "Get episodes",
-        operationId = "senarioList",
-        tags = ["senario"],
-        path = "/Senario/list",
-        methods = [HttpMethod.GET],
-        responses = [
-            OpenApiResponse("200", [OpenApiContent(Array<String>::class)], description = "Success"),
-            OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
-        ],
-    )
-    fun listSenario(ctx: Context) {
-        logger.info { "listSenario is called" }
-        ctx.json(listOf("test1", "test2"))
+        ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
     }
 
     /**
@@ -517,7 +464,7 @@ class App {
     fun getRank(ctx: Context) {
         val answer = ctx.pathParam("id")
         logger.info { "getRank is called : $answer" }
-        ctx.json(Ranking(answer, 2, 10.0))
+        ctx.json(Ranking(answer, DEFAULT_RANK, DEFAULT_SCORE))
     }
 
     /**
@@ -541,6 +488,11 @@ class App {
     )
     fun ranking(ctx: Context) {
         logger.info { "ranking is called." }
-        ctx.json(RankingList(listOf(Ranking("TeamB", 2, 10.0))))
+        ctx.json(RankingList(listOf(Ranking("TeamB", DEFAULT_RANK, DEFAULT_SCORE))))
+    }
+
+    companion object {
+        const val DEFAULT_SCORE = 0.3
+        const val DEFAULT_RANK = 3
     }
 }
