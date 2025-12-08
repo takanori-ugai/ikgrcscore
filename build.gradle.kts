@@ -29,10 +29,10 @@ repositories {
 dependencies {
 //    implementation(kotlin("stdlib"))
     implementation("io.javalin:javalin:6.7.0")
-    kapt("io.javalin.community.openapi:openapi-annotation-processor:6.7.0-2")
-    implementation("io.javalin.community.openapi:javalin-openapi-plugin:6.7.0-2") // for /openapi route with JSON scheme
-    implementation("io.javalin.community.openapi:javalin-swagger-plugin:6.7.0-2") // for Swagger UI
-    implementation("io.javalin.community.openapi:javalin-redoc-plugin:6.7.0-2") // for ReDoc UI
+    kapt("io.javalin.community.openapi:openapi-annotation-processor:6.7.0-5")
+    implementation("io.javalin.community.openapi:javalin-openapi-plugin:6.7.0-5") // for /openapi route with JSON scheme
+    implementation("io.javalin.community.openapi:javalin-swagger-plugin:6.7.0-5") // for Swagger UI
+    implementation("io.javalin.community.openapi:javalin-redoc-plugin:6.7.0-5") // for ReDoc UI
     implementation("io.javalin:javalin-rendering:6.7.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.20.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.20.1")
