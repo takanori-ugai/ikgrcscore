@@ -12,9 +12,7 @@ import io.javalin.http.HttpStatus
 import io.javalin.http.staticfiles.Location
 import io.javalin.openapi.HttpMethod
 import io.javalin.openapi.OpenApi
-import io.javalin.openapi.OpenApiContact
 import io.javalin.openapi.OpenApiContent
-import io.javalin.openapi.OpenApiLicense
 import io.javalin.openapi.OpenApiParam
 import io.javalin.openapi.OpenApiRequestBody
 import io.javalin.openapi.OpenApiResponse
@@ -58,35 +56,33 @@ class App {
             config.registerPlugin(
                 OpenApiPlugin { pluginConfig ->
                     pluginConfig.withDefinitionConfiguration { _, definition ->
-                        definition.withInfo { openApiInfo ->
-                            openApiInfo.title = "RESTful API"
-                            openApiInfo.summary = "RESTful API"
-                            openApiInfo.description = "Backend API"
-                            openApiInfo.version = "0.0.1"
-                            openApiInfo.contact =
-                                OpenApiContact().apply {
-                                    name = "API Support"
-                                    url = "https://www.example.com/support"
-                                    email = "ugai@fujitsu.com"
-                                }
-                            openApiInfo.license =
-                                OpenApiLicense().apply {
-                                    name = "Apache 2.0"
-                                    identifier = "Apache-2.0"
-                                }
-                            openApiInfo.termsOfService = "http://{host}:8081/api/v1"
-                        }.withServer { server ->
-                            if (ISDEVSYSTEM) {
-                                server.url = "http://localhost:7000"
-                            } else {
-                                server.url = "https://kgrc4si.home.kg/score"
+                        definition.info { openApiInfo ->
+                            openApiInfo.title("RESTful API")
+                            openApiInfo.summary("RESTful API")
+                            openApiInfo.description("Backend API")
+                            openApiInfo.version("0.0.1")
+                            openApiInfo.withContact { contact ->
+                                contact.name("API Support")
+                                contact.url("https://www.example.com/support")
+                                contact.email("ugai@fujitsu.com")
                             }
-                            server.description = "go service api server endpoint application"
-                            server.addVariable(
-                                "host",
+                            openApiInfo.withLicense { license ->
+                                license.name("Apache 2.0")
+                                license.identifier("Apache-2.0")
+                            }
+                            openApiInfo.termsOfService("http://{host}:8081/api/v1")
+                        }.server { server ->
+                            if (ISDEVSYSTEM) {
+                                server.url("http://localhost:7000")
+                            } else {
+                                server.url("https://kgrc4si.home.kg/score")
+                            }
+                            server.description("go service api server endpoint application")
+                            server.variable(
+                                key = "host",
+                                description = "Port of the server",
+                                defaultValue = "localhost",
                                 "localhost",
-                                arrayOf("localhost"),
-                                "Port of the server",
                             )
                         }
                     }
