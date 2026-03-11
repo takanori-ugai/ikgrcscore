@@ -28,7 +28,7 @@ class Test1 {
             // Convert an array of strings to JSON
             val str = JavalinJackson().toJsonString(listOf("test1", "test2"))
             // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
-            assertEquals(str, client.get("/Senario/list").body?.string())
+            assertEquals(str, client.get("/Senario/list").body.string())
 //        assertEquals(str, client.get("/Senario/id").body?.string())
         }
 
@@ -47,7 +47,7 @@ class Test1 {
                     SenarioAnswer(data = Senario("Senario1", "Senario1", 1, listOf("Test"))),
                 )
             // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
-            assertEquals(str, client.get("/Senario/id").body?.string())
+            assertEquals(str, client.get("/Senario/id").body.string())
 //        assertEquals(str, client.get("/Senario/id").body?.string())
         }
 
@@ -65,7 +65,7 @@ class Test1 {
                     Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
                 )
             // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q1", Q1answer("A", "B", setOf(Q1data("C", 1)))).body?.string())
+            assertEquals(str, client.post("/Q1", Q1answer("A", "B", setOf(Q1data("C", 1)))).body.string())
         }
 
     /**
@@ -79,13 +79,13 @@ class Test1 {
             val res = client.post("/Q1", Q1answer("", "", emptySet()))
             logger.info { res.code }
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             logger.info { resStr }
             val resObj =
                 JavalinJackson(
                     objectMapper = ObjectMapper().registerKotlinModule(),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
@@ -106,7 +106,7 @@ class Test1 {
                 )
             // Assert that the response from the /Q2 endpoint is equal to the expected JSON
             // Replace Q1answer and Q1data with the appropriate classes for Q2
-            assertEquals(str, client.post("/Q2", Q2answer("A", "B", setOf(Q2data("NAME", 2)))).body?.string())
+            assertEquals(str, client.post("/Q2", Q2answer("A", "B", setOf(Q2data("NAME", 2)))).body.string())
         }
 
     /**
@@ -121,12 +121,12 @@ class Test1 {
             // Replace Q1answer with the appropriate class for Q2
             val res = client.post("/Q2", Q2answer("", "", emptySet()))
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             val resObj =
                 JavalinJackson(
                     objectMapper = ObjectMapper().registerKotlinModule(),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
@@ -142,7 +142,7 @@ class Test1 {
                     Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
                 )
             // Assert that the response from the /Q3 endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q3", Q3answer("A", "B", setOf("C"))).body?.string())
+            assertEquals(str, client.post("/Q3", Q3answer("A", "B", setOf("C"))).body.string())
         }
 
     @Test
@@ -152,12 +152,12 @@ class Test1 {
             // Post an empty answer to the /Q3 endpoint
             val res = client.post("/Q3", Q3answer("", "", emptySet()))
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             val resObj =
                 JavalinJackson(
                     objectMapper = ObjectMapper().registerKotlinModule(),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
@@ -178,7 +178,7 @@ class Test1 {
                     Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
                 )
             // Assert that the response from the /Q4 endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q4", Q3answer("A", "B", setOf("C"))).body?.string())
+            assertEquals(str, client.post("/Q4", Q3answer("A", "B", setOf("C"))).body.string())
         }
 
     /**
@@ -193,12 +193,12 @@ class Test1 {
             // Post an empty answer to the /Q4 endpoint
             val res = client.post("/Q4", Q3answer("", "", emptySet()))
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             val resObj =
                 JavalinJackson(
                     objectMapper = ObjectMapper().registerKotlinModule(),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
@@ -228,7 +228,7 @@ class Test1 {
                         "B",
                         setOf(Q5data("2022-01-01T00:00:20.005", "LivingRoom", setOf("Cup"))),
                     ),
-                ).body?.string(),
+                ).body.string(),
             )
         }
 
@@ -244,14 +244,14 @@ class Test1 {
             // Post an empty answer to the /Q5 endpoint
             val res = client.post("/Q5", Q5answer("", "", emptySet()))
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             val resObj =
                 JavalinJackson(
                     objectMapper =
                         ObjectMapper()
                             .registerKotlinModule(),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
@@ -272,7 +272,7 @@ class Test1 {
                     Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
                 )
             // Assert that the response from the /Q6 endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q6", Q6answer("Takanori Ugai", "Senario1", "Grab")).body?.string())
+            assertEquals(str, client.post("/Q6", Q6answer("Takanori Ugai", "Senario1", "Grab")).body.string())
         }
 
     /**
@@ -287,12 +287,12 @@ class Test1 {
             // Post an empty answer to the /Q6 endpoint
             val res = client.post("/Q6", Q6answer("", "", ""))
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             val resObj =
                 JavalinJackson(
                     objectMapper = ObjectMapper().registerKotlinModule(),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)

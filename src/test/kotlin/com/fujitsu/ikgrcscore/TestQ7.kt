@@ -36,7 +36,7 @@ class TestQ7 {
             // Assert that the response from the /Q7 endpoint is equal to the expected JSON
             assertEquals(
                 str,
-                client.post("/Q7", answer).body?.string(),
+                client.post("/Q7", answer).body.string(),
             )
         }
 
@@ -52,7 +52,7 @@ class TestQ7 {
             // Post an empty answer to the /Q7 endpoint
             val res = client.post("/Q7", Q7answer("", "", emptySet()))
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             val resObj =
                 JavalinJackson(
                     objectMapper =
@@ -60,7 +60,7 @@ class TestQ7 {
                             .registerKotlinModule()
                             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Senario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
