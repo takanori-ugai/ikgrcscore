@@ -22,37 +22,37 @@ class Test1 {
      * with the expected result.
      */
     @Test
-    @DisplayName("Test Senario/list")
+    @DisplayName("Test Scenario/list")
     fun testHelloPageDefaultValues() =
         JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
             val str = JavalinJackson().toJsonString(listOf("test1", "test2"))
-            // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
-            assertEquals(str, client.get("/Senario/list").body.string())
-//        assertEquals(str, client.get("/Senario/id").body?.string())
+            // Assert that the response from the /Scenario/list endpoint is equal to the expected JSON
+            assertEquals(str, client.get("/Scenario/list").body.string())
+//        assertEquals(str, client.get("/Scenario/id").body?.string())
         }
 
     /**
-     * This test checks if the response from the /Senario/id endpoint is correct.
+     * This test checks if the response from the /Scenario/id endpoint is correct.
      * It uses JavalinTest to start the server and client, and then compares the expected result
      * with the actual result.
      */
     @Test
-    @DisplayName("Test Senario/id")
-    fun testSenarioId() =
+    @DisplayName("Test Scenario/id")
+    fun testScenarioId() =
         JavalinTest.test(App().javalinApp) { _, client ->
             // Convert an array of strings to JSON
             val str =
                 JavalinJackson().toJsonString(
-                    SenarioAnswer(data = Senario("Senario1", "Senario1", 1, listOf("Test"))),
+                    ScenarioAnswer(data = Scenario("Scenario1", "Scenario1", 1, listOf("Test"))),
                 )
-            // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
-            assertEquals(str, client.get("/Senario/id").body.string())
-//        assertEquals(str, client.get("/Senario/id").body?.string())
+            // Assert that the response from the /Scenario/list endpoint is equal to the expected JSON
+            assertEquals(str, client.get("/Scenario/id").body.string())
+//        assertEquals(str, client.get("/Scenario/id").body?.string())
         }
 
     /**
-     * Validates the response from the /Senario/id endpoint by comparing the actual result
+     * Validates the response from the /Scenario/id endpoint by comparing the actual result
      * with the expected result.
      */
     @Test
@@ -64,7 +64,7 @@ class Test1 {
                 JavalinJackson().toJsonString(
                     Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
                 )
-            // Assert that the response from the /Senario/list endpoint is equal to the expected JSON
+            // Assert that the response from the /Scenario/list endpoint is equal to the expected JSON
             assertEquals(str, client.post("/Q1", Q1answer("A", "B", setOf(Q1data("C", 1)))).body.string())
         }
 
@@ -87,7 +87,7 @@ class Test1 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 
@@ -128,7 +128,7 @@ class Test1 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 
@@ -159,7 +159,7 @@ class Test1 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 
@@ -200,7 +200,7 @@ class Test1 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 
@@ -253,7 +253,7 @@ class Test1 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 
@@ -272,7 +272,7 @@ class Test1 {
                     Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
                 )
             // Assert that the response from the /Q6 endpoint is equal to the expected JSON
-            assertEquals(str, client.post("/Q6", Q6answer("Takanori Ugai", "Senario1", "Grab")).body.string())
+            assertEquals(str, client.post("/Q6", Q6answer("Takanori Ugai", "Scenario1", "Grab")).body.string())
         }
 
     /**
@@ -294,7 +294,7 @@ class Test1 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 }

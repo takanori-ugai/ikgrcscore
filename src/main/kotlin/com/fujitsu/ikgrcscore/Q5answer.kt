@@ -8,8 +8,8 @@ data class Q5answer(
     @get:OpenApiExample("Takanori Ugai")
     val name: String,
     @get:OpenApiRequired
-    @get:OpenApiExample("Senario1")
-    val senario: String,
+    @get:OpenApiExample("Scenario1")
+    val scenario: String,
     @get:OpenApiRequired
     val answers: Set<Q5data>,
 )

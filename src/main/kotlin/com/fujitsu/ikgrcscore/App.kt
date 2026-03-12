@@ -119,10 +119,10 @@ class App {
             }
 
             config.routes.apiBuilder {
-                val senarioHandler = SenarioHandler()
+                val scenarioHandler = ScenarioHandler()
                 get("/") { it.redirect("assets/Test0.html", HttpStatus.FOUND) }
-                get("/Senario/list", senarioHandler::listSenario)
-                get("/Senario/{id}", senarioHandler::getSenario)
+                get("/Scenario/list", scenarioHandler::listScenario)
+                get("/Scenario/{id}", scenarioHandler::getScenario)
                 get("/Ranking", this::ranking)
                 get("/Ranking/{id}", this::getRank)
                 post("/Q1", this::q1)
@@ -174,9 +174,9 @@ class App {
         }
         val answer =
             ctx.bodyValidator(Q1answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotEmpty() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotEmpty() == true }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
@@ -210,9 +210,9 @@ class App {
     fun q2(ctx: Context) {
         val answer =
             ctx.bodyValidator(Q2answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotEmpty() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotEmpty() == true }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
@@ -246,9 +246,9 @@ class App {
     fun q3(ctx: Context) {
         val answer =
             ctx.bodyValidator(Q3answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotEmpty() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotEmpty() == true }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
@@ -282,9 +282,9 @@ class App {
     fun q4(ctx: Context) {
         val answer =
             ctx.bodyValidator(Q3answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotEmpty() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotEmpty() == true }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
@@ -318,9 +318,9 @@ class App {
     fun q5(ctx: Context) {
         val answer =
             ctx.bodyValidator(Q5answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotEmpty() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotEmpty() == true }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
@@ -354,9 +354,9 @@ class App {
     fun q6(ctx: Context) {
         val answer =
             ctx.bodyValidator(Q6answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotBlank() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotBlank() == true }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers }
         ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
@@ -390,9 +390,9 @@ class App {
     fun q7(ctx: Context) {
         val answer =
             ctx.bodyValidator(Q7answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotEmpty() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotEmpty() == true }, "Answers must not be empty")
                 .get()
         logger.info { answer.answers.size }
         ctx.json(Success(data = SuccessData(DEFAULT_SCORE, DEFAULT_RANK)))
@@ -426,9 +426,9 @@ class App {
     fun q8(ctx: Context) {
         val answer =
             ctx.bodyValidator(Q8answer::class.java)
-                .check({ it!!.name.isNotBlank() }, "Name must not be empty")
-                .check({ it!!.senario.isNotBlank() }, "Senario must not be empty")
-                .check({ it!!.answers.isNotEmpty() }, "Answers must not be empty")
+                .check({ it?.name?.isNotBlank() == true }, "Name must not be empty")
+                .check({ it?.scenario?.isNotBlank() == true }, "Scenario must not be empty")
+                .check({ it?.answers?.isNotEmpty() == true }, "Answers must not be empty")
                 .get()
 
         logger.info { answer.answers.size }

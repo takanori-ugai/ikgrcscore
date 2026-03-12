@@ -35,7 +35,7 @@ class TestQ8 {
             val answer =
                 Q8answer(
                     "Takanori Ugai",
-                    "Senario1",
+                    "Scenario1",
                     setOf(Q8data("Table", setOf(Q8element(listOf(1.1, 2.5, 3.2), setOf("ON", "CLEAN"))))),
                 )
             // Assert that the response from the /Q8 endpoint is equal to the expected JSON
@@ -67,7 +67,7 @@ class TestQ8 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 }

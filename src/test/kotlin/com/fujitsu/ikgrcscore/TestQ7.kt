@@ -32,7 +32,7 @@ class TestQ7 {
                 JavalinJackson().toJsonString(
                     Success(data = SuccessData(App.DEFAULT_SCORE, App.DEFAULT_RANK)),
                 )
-            val answer = Q7answer("Takanori Ugai", "Senario1", setOf(Q7data("Table", "Cup", "ON")))
+            val answer = Q7answer("Takanori Ugai", "Scenario1", setOf(Q7data("Table", "Cup", "ON")))
             // Assert that the response from the /Q7 endpoint is equal to the expected JSON
             assertEquals(
                 str,
@@ -62,7 +62,7 @@ class TestQ7 {
                 )
                     .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 }
