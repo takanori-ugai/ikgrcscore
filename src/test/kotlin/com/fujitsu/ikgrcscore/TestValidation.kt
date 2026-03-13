@@ -14,6 +14,13 @@ import org.junit.jupiter.api.Test
  * Tests edge cases for the updated validation: it?.field.isNullOrBlank() == false
  */
 class TestValidation {
+    companion object {
+        private val javalinJackson =
+            JavalinJackson(
+                objectMapper = ObjectMapper().registerKotlinModule(),
+            )
+    }
+
     /**
      * Test Q1 endpoint with whitespace-only name field.
      * The new validation logic should reject whitespace-only strings.
@@ -25,10 +32,7 @@ class TestValidation {
             val res = client.post("/Q1", Q1answer("   ", "Scenario1", setOf(Q1data("C", 1))))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
         }
 
@@ -42,10 +46,7 @@ class TestValidation {
             val res = client.post("/Q1", Q1answer("Takanori Ugai", "   ", setOf(Q1data("C", 1))))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Scenario must not be empty", resObj.requestBody[0].message)
         }
 
@@ -59,10 +60,7 @@ class TestValidation {
             val res = client.post("/Q2", Q2answer("  ", "  ", setOf(Q2data("NAME", 2))))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
         }
@@ -77,10 +75,7 @@ class TestValidation {
             val res = client.post("/Q3", Q3answer("\t", "Scenario1", setOf("C")))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
         }
 
@@ -102,10 +97,7 @@ class TestValidation {
                 )
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Scenario must not be empty", resObj.requestBody[0].message)
         }
 
@@ -119,10 +111,7 @@ class TestValidation {
             val res = client.post("/Q6", Q6answer("Takanori Ugai", "Scenario1", "   "))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Answers must not be empty", resObj.requestBody[0].message)
         }
 
@@ -136,10 +125,7 @@ class TestValidation {
             val res = client.post("/Q7", Q7answer(" ", " ", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
             assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
@@ -155,10 +141,7 @@ class TestValidation {
             val res = client.post("/Q8", Q8answer(" \t\n ", "Scenario1", emptySet()))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
         }
 
@@ -173,10 +156,7 @@ class TestValidation {
             val res = client.post("/Q4", Q3answer("Valid Name", "  \t  ", setOf("C")))
             assertEquals(400, res.code)
             val resStr = res.body.string()
-            val resObj =
-                JavalinJackson(
-                    objectMapper = ObjectMapper().registerKotlinModule(),
-                ).fromJsonString<InvalidResponse>(resStr)
+            val resObj = javalinJackson.fromJsonString<InvalidResponse>(resStr)
             assertEquals("Scenario must not be empty", resObj.requestBody[0].message)
         }
 }
