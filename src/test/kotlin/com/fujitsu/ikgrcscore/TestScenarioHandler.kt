@@ -129,12 +129,13 @@ class TestScenarioHandler {
     @DisplayName("Test ScenarioAnswer with custom values")
     fun testScenarioAnswerCustomValues() {
         val scenario = Scenario("CustomId", "Custom Title", 2, listOf("CustomActivity"))
-        val scenarioAnswer = ScenarioAnswer(
-            statusCode = 201,
-            method = "POST",
-            message = "Created",
-            data = scenario,
-        )
+        val scenarioAnswer =
+            ScenarioAnswer(
+                statusCode = 201,
+                method = "POST",
+                message = "Created",
+                data = scenario,
+            )
 
         assertEquals(201, scenarioAnswer.statusCode)
         assertEquals("POST", scenarioAnswer.method)
