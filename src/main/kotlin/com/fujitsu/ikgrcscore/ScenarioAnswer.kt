@@ -2,20 +2,20 @@ package com.fujitsu.ikgrcscore
 
 import io.javalin.openapi.OpenApiExample
 
-data class SenarioAnswer(
+data class ScenarioAnswer(
     @get:OpenApiExample("200")
     val statusCode: Int = 200,
     @get:OpenApiExample("GET")
     val method: String = "GET",
     @get:OpenApiExample("Registration of Results is success")
     val message: String = "Succeed",
-    val data: Senario,
+    val data: Scenario,
 )
 
-data class Senario(
-    @get:OpenApiExample("Senario1")
+data class Scenario(
+    @get:OpenApiExample("Scenario1")
     val id: String,
-    @get:OpenApiExample("Senario1")
+    @get:OpenApiExample("Scenario1")
     val title: String,
     @get:OpenApiExample("1")
     val scene: Int,

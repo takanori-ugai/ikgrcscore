@@ -35,13 +35,13 @@ class TestQ8 {
             val answer =
                 Q8answer(
                     "Takanori Ugai",
-                    "Senario1",
+                    "Scenario1",
                     setOf(Q8data("Table", setOf(Q8element(listOf(1.1, 2.5, 3.2), setOf("ON", "CLEAN"))))),
                 )
             // Assert that the response from the /Q8 endpoint is equal to the expected JSON
             assertEquals(
                 str,
-                client.post("/Q8", answer).body?.string(),
+                client.post("/Q8", answer).body.string(),
             )
         }
 
@@ -57,7 +57,7 @@ class TestQ8 {
             // Post an empty answer to the /Q8 endpoint
             val res = client.post("/Q8", Q8answer("", "", emptySet()))
             assertEquals(400, res.code)
-            val resStr = res.body?.string()
+            val resStr = res.body.string()
             val resObj =
                 JavalinJackson(
                     objectMapper =
@@ -65,9 +65,9 @@ class TestQ8 {
                             .registerKotlinModule()
                             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY),
                 )
-                    .fromJsonString<InvalidResponse>(resStr!!)
+                    .fromJsonString<InvalidResponse>(resStr)
             assertEquals("Name must not be empty", resObj.requestBody[0].message)
-            assertEquals("Senario must not be empty", resObj.requestBody[1].message)
+            assertEquals("Scenario must not be empty", resObj.requestBody[1].message)
             assertEquals("Answers must not be empty", resObj.requestBody[2].message)
         }
 }

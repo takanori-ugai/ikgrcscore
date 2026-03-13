@@ -7,7 +7,7 @@ import io.javalin.openapi.OpenApiRequired
  * Data class representing the answer to question 1.
  *
  * @property name The name of the user answering the question.
- * @property senario The scenario for which the question is being answered.
+ * @property scenario The scenario for which the question is being answered.
  * @property answers An array of data objects representing the user's answers.
  */
 data class Q1answer(
@@ -15,8 +15,8 @@ data class Q1answer(
     @get:OpenApiExample("Takanori Ugai")
     val name: String,
     @get:OpenApiRequired
-    @get:OpenApiExample("Senario1")
-    val senario: String,
+    @get:OpenApiExample("Scenario1")
+    val scenario: String,
     @get:OpenApiRequired
     val answers: Set<Q1data>,
 )

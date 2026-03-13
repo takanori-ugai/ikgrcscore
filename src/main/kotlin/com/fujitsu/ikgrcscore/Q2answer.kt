@@ -8,8 +8,8 @@ data class Q2answer(
     @get:OpenApiExample("Takanori Ugai")
     val name: String,
     @get:OpenApiRequired
-    @get:OpenApiExample("Senario1")
-    val senario: String,
+    @get:OpenApiExample("Scenario1")
+    val scenario: String,
     @get:OpenApiRequired
     @get:OpenApiExample("[ { \"name\": \"WALK\",   \"number\": 1 } ]")
     val answers: Set<Q2data>,

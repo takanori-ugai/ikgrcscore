@@ -11,43 +11,43 @@ import io.javalin.validation.ValidationError
 
 private val logger = KotlinLogging.logger {}
 
-class SenarioHandler {
+class ScenarioHandler {
     @OpenApi(
-        description = "Get a senario",
+        description = "Get a scenario",
         deprecated = false,
-        summary = "Get a senario",
-        operationId = "senario",
-        tags = ["senario"],
-        path = "/Senario/{id}",
-        pathParams = [OpenApiParam("id", String::class, "The Senario ID", false, true, example = "Scenario1")],
+        summary = "Get a scenario",
+        operationId = "scenario",
+        tags = ["scenario"],
+        path = "/Scenario/{id}",
+        pathParams = [OpenApiParam("id", String::class, "The Scenario ID", false, true, example = "Scenario1")],
         methods = [HttpMethod.GET],
         responses = [
-            OpenApiResponse("200", [OpenApiContent(SenarioAnswer::class)]),
+            OpenApiResponse("200", [OpenApiContent(ScenarioAnswer::class)]),
             OpenApiResponse("400", [OpenApiContent(ValidationError::class)], description = "Error in Input"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
         ],
     )
-    fun getSenario(ctx: Context) {
+    fun getScenario(ctx: Context) {
         val answer = ctx.pathParam("id")
-        logger.info { "getSenario is called : $answer" }
-        ctx.json(SenarioAnswer(data = Senario("Senario1", "Senario1", 1, listOf("Test"))))
+        logger.info { "getScenario is called : $answer" }
+        ctx.json(ScenarioAnswer(data = Scenario("Scenario1", "Scenario1", 1, listOf("Test"))))
     }
 
     @OpenApi(
         description = "Get episodes",
         deprecated = false,
         summary = "Get episodes",
-        operationId = "senarioList",
-        tags = ["senario"],
-        path = "/Senario/list",
+        operationId = "scenarioList",
+        tags = ["scenario"],
+        path = "/Scenario/list",
         methods = [HttpMethod.GET],
         responses = [
             OpenApiResponse("200", [OpenApiContent(Array<String>::class)], description = "Success"),
             OpenApiResponse("500", [OpenApiContent(ErrorResponse::class)]),
         ],
     )
-    fun listSenario(ctx: Context) {
-        logger.info { "listSenario is called" }
+    fun listScenario(ctx: Context) {
+        logger.info { "listScenario is called" }
         ctx.json(listOf("test1", "test2"))
     }
 }
