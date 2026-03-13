@@ -2,7 +2,6 @@ package com.fujitsu.ikgrcscore
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import io.github.oshai.kotlinlogging.KotlinLogging
 import io.javalin.json.JavalinJackson
 import io.javalin.json.fromJsonString
 import io.javalin.testtools.JavalinTest
@@ -15,8 +14,6 @@ import org.junit.jupiter.api.Test
  * Tests edge cases for the updated validation: it?.field.isNullOrBlank() == false
  */
 class TestValidation {
-    private val logger = KotlinLogging.logger {}
-
     /**
      * Test Q1 endpoint with whitespace-only name field.
      * The new validation logic should reject whitespace-only strings.
