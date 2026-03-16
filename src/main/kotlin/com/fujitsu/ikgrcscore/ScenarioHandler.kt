@@ -11,7 +11,15 @@ import io.javalin.validation.ValidationError
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ * Handles scenario-related API endpoints.
+ */
 class ScenarioHandler {
+    /**
+     * Returns a scenario for the given ID path parameter.
+     *
+     * @param ctx Javalin request context containing the scenario ID.
+     */
     @OpenApi(
         description = "Get a scenario",
         deprecated = false,
@@ -33,6 +41,11 @@ class ScenarioHandler {
         ctx.json(ScenarioAnswer(data = Scenario("Scenario1", "Scenario1", 1, listOf("Test"))))
     }
 
+    /**
+     * Returns the available scenario IDs.
+     *
+     * @param ctx Javalin request context for writing the JSON response.
+     */
     @OpenApi(
         description = "Get episodes",
         deprecated = false,
