@@ -28,12 +28,12 @@ repositories {
 
 dependencies {
 //    implementation(kotlin("stdlib"))
-    implementation("io.javalin:javalin:7.0.1")
+    implementation("io.javalin:javalin:7.1.0")
     kapt("io.javalin.community.openapi:openapi-annotation-processor:7.1.0")
     implementation("io.javalin.community.openapi:javalin-openapi-plugin:7.1.0") // for /openapi route with JSON scheme
     implementation("io.javalin.community.openapi:javalin-swagger-plugin:7.1.0") // for Swagger UI
     implementation("io.javalin.community.openapi:javalin-redoc-plugin:7.1.0") // for ReDoc UI
-    implementation("io.javalin:javalin-rendering:7.0.1")
+    implementation("io.javalin:javalin-rendering:7.1.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.21.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.21.1")
     implementation("io.github.oshai:kotlin-logging-jvm:8.0.01")
@@ -46,7 +46,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:6.0.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("io.javalin:javalin-testtools:7.0.1")
+    testImplementation("io.javalin:javalin-testtools:7.1.0")
 }
 
 tasks {
