@@ -16,7 +16,10 @@ private val logger = KotlinLogging.logger {}
  */
 class ScenarioHandler {
     /**
-     * Returns a scenario for the given ID path parameter.
+     * Returns a scenario.
+     *
+     * NOTE: This is a scaffold implementation and currently returns a fixed scenario,
+     * ignoring the ID path parameter.
      *
      * @param ctx Javalin request context containing the scenario ID.
      */

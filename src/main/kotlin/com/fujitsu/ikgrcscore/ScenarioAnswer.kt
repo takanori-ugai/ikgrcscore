@@ -15,7 +15,7 @@ data class ScenarioAnswer(
     val statusCode: Int = 200,
     @get:OpenApiExample("GET")
     val method: String = "GET",
-    @get:OpenApiExample("Registration of Results is success")
+    @get:OpenApiExample("Succeed")
     val message: String = "Succeed",
     val data: Scenario,
 )

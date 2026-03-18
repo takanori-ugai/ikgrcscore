@@ -151,4 +151,4 @@ The test suite covers:
 ## Notes
 
 - The runtime-generated `/openapi` document is the closest representation of the current code.
-- `docs/openapi.yml` exists in the repository, but some field names in that file differ from the current Kotlin DTOs. For example, `Q5` uses `obj` in code, and `Q7` uses `obj1`/`obj2`.
+- `docs/openapi.yml` exists in the repository, but some field names and types in that file differ from the current Kotlin DTOs. For example, the `Q5` DTO uses an `obj` field (`List<String>`), while the YAML defines an `object` field (`String`). For `Q7`, the DTOs use `obj1`/`obj2` while the YAML uses `object1`/`object2`.
