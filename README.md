@@ -2,7 +2,7 @@
 
 [![codecov](https://codecov.io/gh/takanori-ugai/ikgrcscore/graph/badge.svg?token=VBE17UHRP3)](https://codecov.io/gh/takanori-ugai/ikgrcscore)
 
-`ikgrcscore` is a Kotlin 17 service built with Javalin. It exposes REST endpoints for submitting answers to questions `Q1` through `Q8`, retrieving scenario metadata, and reading a simple ranking view. The project also serves static HTML assets and publishes OpenAPI, Swagger UI, and ReDoc documentation from the running application.
+`ikgrcscore` is a Kotlin service built with Javalin, running on Java 17. It exposes REST endpoints for submitting answers to questions `Q1` through `Q8`, retrieving scenario metadata, and reading a simple ranking view. The project also serves static HTML assets and publishes OpenAPI, Swagger UI, and ReDoc documentation from the running application.
 
 ## Current implementation status
 

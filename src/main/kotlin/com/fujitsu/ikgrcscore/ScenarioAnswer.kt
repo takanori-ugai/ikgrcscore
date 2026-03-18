@@ -35,6 +35,6 @@ data class Scenario(
     val title: String,
     @get:OpenApiExample("1")
     val scene: Int,
-    @get:OpenApiExample("[ \"Read_book1_scene1\" ]")
+    @get:OpenApiExample("[ \"Test\" ]")
     val activities: List<String>,
 )
