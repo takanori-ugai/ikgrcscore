@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class InvalidResponse(
     @JsonProperty("REQUEST_BODY")
-    val requestBody: List<Res>,
+    val requestBody: List<ValidationIssue>,
 )
 
 /**
@@ -19,7 +19,7 @@ data class InvalidResponse(
  * @property args Additional validation arguments associated with the error.
  * @property value Rejected value that caused the validation failure.
  */
-data class Res(
+data class ValidationIssue(
     val message: String,
     val args: Any,
     val value: Any,
