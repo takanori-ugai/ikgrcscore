@@ -38,7 +38,7 @@ dependencies {
     implementation("tools.jackson.core:jackson-databind:3.1.4")
     implementation("io.github.oshai:kotlin-logging-jvm:8.0.4")
     implementation("org.xerial:sqlite-jdbc:3.53.2.0")
-    implementation("com.zaxxer:HikariCP:7.0.2")
+    implementation("com.zaxxer:HikariCP:7.1.0")
 
 //    runtimeOnly("org.slf4j:slf4j-simple:2.+")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:2.+")
